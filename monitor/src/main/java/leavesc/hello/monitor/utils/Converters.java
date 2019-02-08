@@ -1,4 +1,4 @@
-package leavesc.hello.sample.utils;
+package leavesc.hello.monitor.utils;
 
 import android.arch.persistence.room.TypeConverter;
 

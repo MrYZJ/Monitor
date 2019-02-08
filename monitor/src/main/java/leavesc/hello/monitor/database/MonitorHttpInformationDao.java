@@ -1,4 +1,4 @@
-package leavesc.hello.sample.database;
+package leavesc.hello.monitor.database;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
@@ -8,7 +8,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import leavesc.hello.sample.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
 
 /**
  * 作者：leavesC

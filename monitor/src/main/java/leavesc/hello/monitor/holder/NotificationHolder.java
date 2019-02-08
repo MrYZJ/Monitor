@@ -1,4 +1,4 @@
-package leavesc.hello.sample.holder;
+package leavesc.hello.monitor.holder;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,10 +10,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.LongSparseArray;
 
-import leavesc.hello.sample.ClearMonitorService;
-import leavesc.hello.sample.MonitorActivity;
-import leavesc.hello.sample.R;
-import leavesc.hello.sample.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.ClearMonitorService;
+import leavesc.hello.monitor.MonitorActivity;
+import leavesc.hello.monitor.R;
+import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
 
 /**
  * 作者：leavesC

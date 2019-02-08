@@ -1,17 +1,11 @@
 package leavesc.hello.sample;
 
-import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
-import java.util.List;
-
-import leavesc.hello.sample.database.MonitorHttpInformationDatabase;
-import leavesc.hello.sample.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.MonitorInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -37,16 +31,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 doHttpActivity();
-            }
-        });
-        MonitorHttpInformationDatabase.getInstance(MainActivity.this).getHttpInformationDao().queryAllRecordObservable().observe(this, new Observer<List<MonitorHttpInformation>>() {
-            @Override
-            public void onChanged(@Nullable List<MonitorHttpInformation> monitorHttpInformations) {
-                Log.e(TAG, "*****************************");
-                for (MonitorHttpInformation monitorHttpInformation : monitorHttpInformations) {
-                    Log.e(TAG, monitorHttpInformation.toString());
-                }
-                Log.e(TAG, "*****************************");
             }
         });
     }

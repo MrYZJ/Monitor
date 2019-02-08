@@ -1,4 +1,4 @@
-package leavesc.hello.sample.utils;
+package leavesc.hello.monitor.utils;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;

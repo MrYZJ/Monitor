@@ -1,10 +1,10 @@
-package leavesc.hello.sample;
+package leavesc.hello.monitor;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 
-import leavesc.hello.sample.holder.NotificationHolder;
+import leavesc.hello.monitor.holder.NotificationHolder;
 
 /**
  * 作者：leavesC

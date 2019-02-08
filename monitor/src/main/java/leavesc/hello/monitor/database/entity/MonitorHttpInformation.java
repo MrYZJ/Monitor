@@ -1,4 +1,4 @@
-package leavesc.hello.sample.database.entity;
+package leavesc.hello.monitor.database.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import leavesc.hello.sample.model.HttpInformation;
+import leavesc.hello.monitor.model.HttpInformation;
 
 /**
  * 作者：leavesC
