@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Monitor</string>
+    <string name="notification_category">Chuck HTTP notifications</string>
+    <string name="clear">Clear</string>
+    <string name="chuck_notification_title">Recording HTTP activity</string>
+</resources>
