@@ -39,10 +39,6 @@ public class MonitorInterceptor implements Interceptor {
 
     private static final String TAG = "MonitorInterceptor";
 
-    public enum Period {ONE_HOUR, ONE_DAY, ONE_WEEK, FOREVER}
-
-    private static final Period DEFAULT_RETENTION = Period.ONE_WEEK;
-
     private static final Charset CHARSET_UTF8 = Charset.forName("UTF-8");
 
     private Context context;
@@ -51,11 +47,6 @@ public class MonitorInterceptor implements Interceptor {
 
     public MonitorInterceptor(Context context) {
         this.context = context.getApplicationContext();
-    }
-
-    public MonitorInterceptor maxContentLength(long max) {
-        this.maxContentLength = max;
-        return this;
     }
 
     @NonNull
@@ -69,6 +60,7 @@ public class MonitorInterceptor implements Interceptor {
         httpInformation.setRequestHeaders(request.headers());
         httpInformation.setMethod(request.method());
         httpInformation.setUrl(request.url().toString());
+
         if (requestBody != null) {
             MediaType contentType = requestBody.contentType();
             if (contentType != null) {
@@ -97,13 +89,7 @@ public class MonitorInterceptor implements Interceptor {
                 httpInformation.setResponseBodyIsPlainText(false);
             }
         }
-
-//        Uri transactionUri = create(httpInformation);
-
         long id = insert(httpInformation);
-
-//        Log.e(TAG, "id****************************: " + id);
-
         long startTime = System.nanoTime();
         Response response;
         try {
@@ -111,7 +97,6 @@ public class MonitorInterceptor implements Interceptor {
         } catch (Exception e) {
             httpInformation.setError(e.toString());
             update(id, httpInformation);
-//            update(httpInformation, transactionUri);
             throw e;
         }
         httpInformation.setResponseDate(new Date());
@@ -135,14 +120,15 @@ public class MonitorInterceptor implements Interceptor {
             source.request(Long.MAX_VALUE);
             Buffer buffer = source.buffer();
             Charset charset = CHARSET_UTF8;
-            MediaType contentType = responseBody.contentType();
-            if (contentType != null) {
-                try {
-                    charset = contentType.charset(CHARSET_UTF8);
-                } catch (UnsupportedCharsetException e) {
-//                    update(httpInformation, transactionUri);
-                    update(id, httpInformation);
-                    return response;
+            if (responseBody != null) {
+                MediaType contentType = responseBody.contentType();
+                if (contentType != null) {
+                    try {
+                        charset = contentType.charset(CHARSET_UTF8);
+                    } catch (UnsupportedCharsetException e) {
+                        update(id, httpInformation);
+                        return response;
+                    }
                 }
             }
             if (isPlaintext(buffer)) {
@@ -152,13 +138,7 @@ public class MonitorInterceptor implements Interceptor {
             }
             httpInformation.setResponseContentLength(buffer.size());
         }
-
-//        Log.e(TAG, httpInformation.toString());
-
-//        update(httpInformation, transactionUri);
-
         update(id, httpInformation);
-
         return response;
     }
 
@@ -168,12 +148,10 @@ public class MonitorInterceptor implements Interceptor {
         return MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().insert(pack);
     }
 
-    public void update(long id, HttpInformation httpInformation) {
+    private void update(long id, HttpInformation httpInformation) {
         MonitorHttpInformation pack = httpInformation.constModel();
         pack.setId(id);
-
         NotificationHolder.getInstance(context).show(pack);
-
         MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().update(pack);
     }
 
@@ -242,6 +220,11 @@ public class MonitorInterceptor implements Interceptor {
 
     private boolean bodyGzipped(Headers headers) {
         return "gzip".equalsIgnoreCase(headers.get("Content-Encoding"));
+    }
+
+    public MonitorInterceptor maxContentLength(long max) {
+        this.maxContentLength = max;
+        return this;
     }
 
 }
