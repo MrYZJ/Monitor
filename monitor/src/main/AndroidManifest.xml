@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="leavesc.hello.monitor">
+
+    <application>
+        <activity
+            android:name=".MonitorActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+        <service
+            android:name=".ClearMonitorService"
+            android:exported="false" />
+    </application>
+
+</manifest>
