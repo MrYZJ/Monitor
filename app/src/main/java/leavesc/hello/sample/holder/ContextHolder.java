@@ -1,8 +1,8 @@
-package leavesc.hello.monitor.holder;
+package leavesc.hello.sample.holder;
 
 import android.content.Context;
 
-import leavesc.hello.monitor.BaseApplication;
+import leavesc.hello.sample.BaseApplication;
 
 /**
  * 作者：leavesC

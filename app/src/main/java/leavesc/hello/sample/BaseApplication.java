@@ -1,4 +1,4 @@
-package leavesc.hello.monitor;
+package leavesc.hello.sample;
 
 import android.app.Application;
 

@@ -4,17 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context="leavesc.hello.sample.MainActivity">
 
     <Button
         android:id="@+id/do_http"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Test"
-        android:textAllCaps="false" />
-
-    <Button
-        android:id="@+id/do_http2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Test"

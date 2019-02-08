@@ -1,4 +1,4 @@
-package leavesc.hello.monitor;
+package leavesc.hello.sample;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
@@ -10,8 +10,8 @@ import android.view.View;
 
 import java.util.List;
 
-import leavesc.hello.monitor.database.MonitorHttpInformationDatabase;
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
+import leavesc.hello.sample.database.MonitorHttpInformationDatabase;
+import leavesc.hello.sample.database.entity.MonitorHttpInformation;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -37,21 +37,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 doHttpActivity();
-            }
-        });
-        findViewById(R.id.do_http2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.e(TAG, "*****************************");
-                        for (MonitorHttpInformation pack : MonitorHttpInformationDatabase.getInstance(MainActivity.this).getHttpInformationDao().queryAllRecord()) {
-                            Log.e(TAG, pack.toString());
-                        }
-                        Log.e(TAG, "*****************************");
-                    }
-                }).start();
             }
         });
         MonitorHttpInformationDatabase.getInstance(MainActivity.this).getHttpInformationDao().queryAllRecordObservable().observe(this, new Observer<List<MonitorHttpInformation>>() {
@@ -114,4 +99,5 @@ public class MainActivity extends AppCompatActivity {
         api.cache("Mon").enqueue(cb);
         api.cache(30).enqueue(cb);
     }
+
 }

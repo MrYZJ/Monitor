@@ -1,13 +1,13 @@
-package leavesc.hello.monitor.model;
+package leavesc.hello.sample.model;
 
 import android.net.Uri;
 import android.text.TextUtils;
 
 import java.util.Date;
 
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
-import leavesc.hello.monitor.utils.FormatUtils;
-import leavesc.hello.monitor.utils.JsonConverter;
+import leavesc.hello.sample.database.entity.MonitorHttpInformation;
+import leavesc.hello.sample.utils.FormatUtils;
+import leavesc.hello.sample.utils.JsonConverter;
 import okhttp3.Headers;
 
 /**

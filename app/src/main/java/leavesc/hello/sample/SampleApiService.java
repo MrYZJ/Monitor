@@ -1,4 +1,4 @@
-package leavesc.hello.monitor;
+package leavesc.hello.sample;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Call;

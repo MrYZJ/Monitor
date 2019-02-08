@@ -1,4 +1,4 @@
-package leavesc.hello.monitor.model;
+package leavesc.hello.sample.model;
 
 /**
  * 作者：leavesC

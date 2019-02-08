@@ -1,4 +1,4 @@
-package leavesc.hello.monitor.database;
+package leavesc.hello.sample.database;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -6,8 +6,8 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
-import leavesc.hello.monitor.utils.Converters;
+import leavesc.hello.sample.database.entity.MonitorHttpInformation;
+import leavesc.hello.sample.utils.Converters;
 
 /**
  * 作者：leavesC
