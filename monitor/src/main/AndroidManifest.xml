@@ -5,8 +5,10 @@
     <application>
         <activity
             android:name=".MonitorActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustPan" />
+            android:taskAffinity="leavesc.hello.monitor.singleTask"
+            android:theme="@style/MonitorAppTheme" />
         <service
             android:name=".service.ClearMonitorService"
             android:exported="false" />

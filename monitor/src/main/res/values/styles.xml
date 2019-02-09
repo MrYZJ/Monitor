@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="MonitorAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="monitor.title" parent="android:TextAppearance">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">#eb010713</item>
+        <item name="android:textColor">@color/itemTitleColor</item>
     </style>
 
     <style name="monitor.content" parent="android:TextAppearance">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#d630343e</item>
+        <item name="android:textColor">@color/itemContentColor</item>
+
     </style>
 
 </resources>

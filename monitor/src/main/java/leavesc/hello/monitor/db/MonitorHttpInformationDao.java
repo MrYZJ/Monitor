@@ -33,10 +33,16 @@ public interface MonitorHttpInformationDao {
     @Query("SELECT * FROM monitor_httpInformation")
     List<MonitorHttpInformation> queryAllRecord();
 
+    @Query("SELECT * FROM monitor_httpInformation order by id desc limit :limit")
+    LiveData<List<MonitorHttpInformation>> queryAllRecordObservable(int limit);
+
     @Query("SELECT * FROM monitor_httpInformation order by id desc")
     LiveData<List<MonitorHttpInformation>> queryAllRecordObservable();
 
     @Query("SELECT * FROM monitor_httpInformation")
     DataSource.Factory<Integer, MonitorHttpInformation> queryDataSource();
+
+    @Query("DELETE FROM monitor_httpInformation")
+    void deleteAll();
 
 }

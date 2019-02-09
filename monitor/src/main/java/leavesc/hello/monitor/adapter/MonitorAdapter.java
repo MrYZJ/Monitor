@@ -43,12 +43,12 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     public MonitorAdapter(Context context) {
         asyncListDiffer = new AsyncListDiffer<>(this, new DiffUtilItemCallback());
-        colorDefault = ContextCompat.getColor(context, R.color.chuck_status_default);
-        colorRequested = ContextCompat.getColor(context, R.color.chuck_status_requested);
-        colorError = ContextCompat.getColor(context, R.color.chuck_status_error);
-        color500 = ContextCompat.getColor(context, R.color.chuck_status_500);
-        color400 = ContextCompat.getColor(context, R.color.chuck_status_400);
-        color300 = ContextCompat.getColor(context, R.color.chuck_status_300);
+        colorDefault = ContextCompat.getColor(context, R.color.itemTitleColor);
+        colorRequested = ContextCompat.getColor(context, R.color.monitor_status_requested);
+        colorError = ContextCompat.getColor(context, R.color.monitor_status_error);
+        color500 = ContextCompat.getColor(context, R.color.monitor_status_500);
+        color400 = ContextCompat.getColor(context, R.color.monitor_status_400);
+        color300 = ContextCompat.getColor(context, R.color.monitor_status_300);
     }
 
     public void setData(List<MonitorHttpInformation> dataList) {

@@ -10,6 +10,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
@@ -28,19 +31,14 @@ public class MonitorActivity extends AppCompatActivity {
 
     private static final String TAG = "MonitorActivity";
 
+    private MonitorViewModel monitorViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
-
-        MonitorViewModel monitorViewModel = ViewModelProviders.of(this, new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new MonitorViewModel(getApplication());
-            }
-        }).get(MonitorViewModel.class);
-
+        initView();
+        initViewModel();
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         final MonitorAdapter adapter = new MonitorAdapter(this);
@@ -57,6 +55,36 @@ public class MonitorActivity extends AppCompatActivity {
                 adapter.setData(monitorHttpInformationList);
             }
         });
+    }
+
+    private void initViewModel() {
+        monitorViewModel = ViewModelProviders.of(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new MonitorViewModel(getApplication());
+            }
+        }).get(MonitorViewModel.class);
+    }
+
+    private void initView() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_monitor, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.clear) {
+            monitorViewModel.clearAllCache();
+            monitorViewModel.clearNotification();
+        }
+        return true;
     }
 
 }

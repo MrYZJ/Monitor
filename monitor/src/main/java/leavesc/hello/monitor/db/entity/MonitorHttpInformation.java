@@ -24,7 +24,7 @@ public class MonitorHttpInformation {
 
     public enum Status {Requested, Complete, Failed}
 
-    private static final SimpleDateFormat TIME_ONLY_FMT = new SimpleDateFormat("HH:mm:ss", Locale.CHINA);
+    private static final SimpleDateFormat TIME_ONLY_FMT = new SimpleDateFormat("HH:mm:ss SSS", Locale.CHINA);
 
     @PrimaryKey(autoGenerate = true)
     private long id;

@@ -9,6 +9,7 @@ import java.util.List;
 
 import leavesc.hello.monitor.db.MonitorHttpInformationDatabase;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.holder.NotificationHolder;
 
 /**
  * 作者：leavesC
@@ -21,13 +22,28 @@ public class MonitorViewModel extends AndroidViewModel {
 
     private LiveData<List<MonitorHttpInformation>> recordLiveData;
 
+    private static final int LIMIT = 300;
+
     public MonitorViewModel(@NonNull Application application) {
         super(application);
-        recordLiveData = MonitorHttpInformationDatabase.getInstance(application).getHttpInformationDao().queryAllRecordObservable();
+        recordLiveData = MonitorHttpInformationDatabase.getInstance(application).getHttpInformationDao().queryAllRecordObservable(LIMIT);
     }
 
     public LiveData<List<MonitorHttpInformation>> getRecordLiveData() {
         return recordLiveData;
+    }
+
+    public void clearAllCache() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MonitorHttpInformationDatabase.getInstance(getApplication()).getHttpInformationDao().deleteAll();
+            }
+        }).start();
+    }
+
+    public void clearNotification() {
+        NotificationHolder.getInstance(getApplication()).dismiss();
     }
 
 }
