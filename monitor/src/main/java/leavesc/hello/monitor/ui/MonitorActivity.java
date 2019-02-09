@@ -1,4 +1,4 @@
-package leavesc.hello.monitor;
+package leavesc.hello.monitor.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
@@ -13,12 +13,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import java.util.List;
 
+import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.adapter.MonitorAdapter;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.viewmodel.MonitorViewModel;
 
 /**
  * 作者：leavesC
@@ -45,11 +46,11 @@ public class MonitorActivity extends AppCompatActivity {
         adapter.setClickListener(new MonitorAdapter.OnClickListener() {
             @Override
             public void onClick(int position, MonitorHttpInformation model) {
-                Toast.makeText(MonitorActivity.this, model.getId() + "", Toast.LENGTH_SHORT).show();
+                MonitorDetailsActivity.navTo(MonitorActivity.this, model.getId());
             }
         });
         recyclerView.setAdapter(adapter);
-        monitorViewModel.getRecordLiveData().observe(this, new Observer<List<MonitorHttpInformation>>() {
+        monitorViewModel.getAllRecordLiveData().observe(this, new Observer<List<MonitorHttpInformation>>() {
             @Override
             public void onChanged(@Nullable List<MonitorHttpInformation> monitorHttpInformationList) {
                 adapter.setData(monitorHttpInformationList);
@@ -58,13 +59,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
     private void initViewModel() {
-        monitorViewModel = ViewModelProviders.of(this, new ViewModelProvider.Factory() {
-            @NonNull
-            @Override
-            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-                return (T) new MonitorViewModel(getApplication());
-            }
-        }).get(MonitorViewModel.class);
+        monitorViewModel = ViewModelProviders.of(this).get(MonitorViewModel.class);
     }
 
     private void initView() {

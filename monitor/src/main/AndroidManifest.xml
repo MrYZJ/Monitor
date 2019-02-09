@@ -4,7 +4,13 @@
 
     <application>
         <activity
-            android:name=".MonitorActivity"
+            android:name=".ui.MonitorActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:taskAffinity="leavesc.hello.monitor.singleTask"
+            android:theme="@style/MonitorAppTheme" />
+        <activity
+            android:name=".ui.MonitorDetailsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:taskAffinity="leavesc.hello.monitor.singleTask"

@@ -89,6 +89,21 @@ public class MonitorHttpInformation {
         }
     }
 
+    public String getResponseSummaryText() {
+        switch (getStatus()) {
+            case Failed:
+                return error;
+            case Requested:
+                return null;
+            default:
+                return String.valueOf(responseCode) + " " + responseMessage;
+        }
+    }
+
+    public String getDurationFormat() {
+        return duration + " ms";
+    }
+
     public boolean isSsl() {
         return "https".equals(scheme.toLowerCase());
     }

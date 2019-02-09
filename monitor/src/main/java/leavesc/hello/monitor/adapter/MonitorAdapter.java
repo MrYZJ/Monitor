@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import leavesc.hello.monitor.R;
@@ -67,29 +66,29 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     @Override
     public void onBindViewHolder(@NonNull final MonitorViewHolder holder, int position) {
-        final MonitorHttpInformation transaction = asyncListDiffer.getCurrentList().get(position);
-        holder.tv_path.setText(String.format("%s %s", transaction.getMethod(), transaction.getPath()));
-        holder.tv_host.setText(transaction.getHost());
-        holder.tv_requestDate.setText(transaction.getRequestDateFormat());
-        holder.iv_ssl.setVisibility(transaction.isSsl() ? View.VISIBLE : View.GONE);
-        if (transaction.getStatus() == MonitorHttpInformation.Status.Complete) {
-            holder.tv_code.setText(String.valueOf(transaction.getResponseCode()));
-            holder.tv_duration.setText(MessageFormat.format("{0}ms", transaction.getDuration()));
-            holder.tv_size.setText(transaction.getTotalSizeString());
+        final MonitorHttpInformation httpInformation = asyncListDiffer.getCurrentList().get(position);
+        holder.tv_path.setText(String.format("%s %s", httpInformation.getMethod(), httpInformation.getPath()));
+        holder.tv_host.setText(httpInformation.getHost());
+        holder.tv_requestDate.setText(httpInformation.getRequestDateFormat());
+        holder.iv_ssl.setVisibility(httpInformation.isSsl() ? View.VISIBLE : View.GONE);
+        if (httpInformation.getStatus() == MonitorHttpInformation.Status.Complete) {
+            holder.tv_code.setText(String.valueOf(httpInformation.getResponseCode()));
+            holder.tv_duration.setText(httpInformation.getDurationFormat());
+            holder.tv_size.setText(httpInformation.getTotalSizeString());
         } else {
             holder.tv_code.setText(null);
             holder.tv_duration.setText(null);
             holder.tv_size.setText(null);
         }
-        if (transaction.getStatus() == MonitorHttpInformation.Status.Failed) {
+        if (httpInformation.getStatus() == MonitorHttpInformation.Status.Failed) {
             holder.tv_code.setText("!!!");
         }
-        setStatusColor(holder, transaction);
+        setStatusColor(holder, httpInformation);
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (clickListener != null) {
-                    clickListener.onClick(holder.getAdapterPosition(), transaction);
+                    clickListener.onClick(holder.getAdapterPosition(), httpInformation);
                 }
             }
         });

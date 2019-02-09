@@ -15,7 +15,22 @@
     <style name="monitor.content" parent="android:TextAppearance">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/itemContentColor</item>
+    </style>
 
+    <style name="Chuck.TextAppearance.Value" parent="android:TextAppearance.Small">
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textIsSelectable">true</item>
+    </style>
+
+    <style name="Chuck.TextAppearance.Label" parent="android:TextAppearance.Small">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Chuck.TextAppearance.TransactionTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:gravity">top</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:maxLines">2</item>
     </style>
 
 </resources>

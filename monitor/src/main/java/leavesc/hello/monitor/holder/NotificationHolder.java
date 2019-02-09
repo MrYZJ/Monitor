@@ -11,7 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.LongSparseArray;
 
 import leavesc.hello.monitor.service.ClearMonitorService;
-import leavesc.hello.monitor.MonitorActivity;
+import leavesc.hello.monitor.ui.MonitorActivity;
 import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 
