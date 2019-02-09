@@ -1,6 +1,5 @@
 package leavesc.hello.monitor.utils;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import org.xml.sax.InputSource;
@@ -56,15 +55,27 @@ public class FormatUtils {
         return FormatUtils.formatByteCount(bytes, true);
     }
 
+    public static String formatByteCount(long bytes, boolean si) {
+        int unit = si ? 1000 : 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
+        return String.format(Locale.US, "%.1f %sB", bytes / Math.pow(unit, exp), pre);
+    }
+
     public static String formatHeaders(List<HttpHeader> httpHeaders, boolean withMarkup) {
-        String out = "";
+        StringBuilder out = new StringBuilder();
         if (httpHeaders != null) {
             for (HttpHeader header : httpHeaders) {
-                out += ((withMarkup) ? "<b>" : "") + header.getName() + ": " + ((withMarkup) ? "</b>" : "") +
-                        header.getValue() + ((withMarkup) ? "<br />" : "\n");
+                out.append((withMarkup) ? "<b>" : "")
+                        .append(header.getName())
+                        .append(": ")
+                        .append((withMarkup) ? "</b>" : "")
+                        .append(header.getValue())
+                        .append((withMarkup) ? "<br />" : "\n");
             }
         }
-        return out;
+        return out.toString();
     }
 
     public static String formatBody(String body, String contentType) {
@@ -77,26 +88,15 @@ public class FormatUtils {
         }
     }
 
-
-    public static String formatByteCount(long bytes, boolean si) {
-        int unit = si ? 1000 : 1024;
-        if (bytes < unit) return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
-        return String.format(Locale.US, "%.1f %sB", bytes / Math.pow(unit, exp), pre);
-    }
-
-    public static String formatJson(String json) {
+    private static String formatJson(String json) {
         try {
-            JsonParser jp = new JsonParser();
-            JsonElement je = jp.parse(json);
-            return JsonConverter.getInstance().toJson(je);
+            return JsonConverter.getInstance().toJson(new JsonParser().parse(json));
         } catch (Exception e) {
             return json;
         }
     }
 
-    public static String formatXml(String xml) {
+    private static String formatXml(String xml) {
         try {
             Transformer serializer = SAXTransformerFactory.newInstance().newTransformer();
             serializer.setOutputProperty(OutputKeys.INDENT, "yes");
