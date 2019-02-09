@@ -1,16 +1,22 @@
 package leavesc.hello.monitor;
 
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.TextView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import leavesc.hello.monitor.database.MonitorHttpInformationDatabase;
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.adapter.MonitorAdapter;
+import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 
 /**
  * 作者：leavesC
@@ -23,28 +29,39 @@ public class MonitorActivity extends AppCompatActivity {
 
     private static final String TAG = "MonitorActivity";
 
-    private TextView tv_log;
+    private List<MonitorHttpInformation> dataList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
-        tv_log = findViewById(R.id.tv_log);
-        MonitorHttpInformationDatabase.getInstance(MonitorActivity.this).getHttpInformationDao().queryAllRecordObservable().observe(this, new Observer<List<MonitorHttpInformation>>() {
+
+        MonitorViewModel monitorViewModel = ViewModelProviders.of(this, new ViewModelProvider.Factory() {
+            @NonNull
+            @Override
+            public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+                return (T) new MonitorViewModel(getApplication());
+            }
+        }).get(MonitorViewModel.class);
+
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        final MonitorAdapter adapter = new MonitorAdapter(this, dataList);
+        adapter.setClickListener(new MonitorAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, MonitorHttpInformation model) {
+                Toast.makeText(MonitorActivity.this, model.getId() + "", Toast.LENGTH_SHORT).show();
+            }
+        });
+        recyclerView.setAdapter(adapter);
+        monitorViewModel.getRecordLiveData().observe(this, new Observer<List<MonitorHttpInformation>>() {
             @Override
             public void onChanged(@Nullable List<MonitorHttpInformation> monitorHttpInformationList) {
-                tv_log.setText("");
-                Log.e(TAG, "*****************************");
-                for (MonitorHttpInformation monitorHttpInformation : monitorHttpInformationList) {
-                    Log.e(TAG, monitorHttpInformation.toString());
-                    tv_log.append(monitorHttpInformation.toString());
-                    tv_log.append("\n");
-                    tv_log.append("\n");
-                    tv_log.append("*****************************");
-                    tv_log.append("\n");
-                    tv_log.append("\n");
+                dataList.clear();
+                if (monitorHttpInformationList != null) {
+                    dataList.addAll(monitorHttpInformationList);
                 }
-                Log.e(TAG, "*****************************");
+                adapter.notifyDataSetChanged();
             }
         });
     }

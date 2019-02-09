@@ -11,8 +11,8 @@ import java.nio.charset.UnsupportedCharsetException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import leavesc.hello.monitor.database.MonitorHttpInformationDatabase;
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.MonitorHttpInformationDatabase;
+import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 import leavesc.hello.monitor.holder.NotificationHolder;
 import leavesc.hello.monitor.model.HttpInformation;
 import okhttp3.Headers;

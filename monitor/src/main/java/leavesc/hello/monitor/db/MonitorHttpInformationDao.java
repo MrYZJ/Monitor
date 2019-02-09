@@ -1,6 +1,7 @@
-package leavesc.hello.monitor.database;
+package leavesc.hello.monitor.db;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.paging.DataSource;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
@@ -8,7 +9,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 
 /**
  * 作者：leavesC
@@ -32,7 +33,10 @@ public interface MonitorHttpInformationDao {
     @Query("SELECT * FROM monitor_httpInformation")
     List<MonitorHttpInformation> queryAllRecord();
 
-    @Query("SELECT * FROM monitor_httpInformation")
+    @Query("SELECT * FROM monitor_httpInformation order by id desc")
     LiveData<List<MonitorHttpInformation>> queryAllRecordObservable();
+
+    @Query("SELECT * FROM monitor_httpInformation")
+    DataSource.Factory<Integer, MonitorHttpInformation> queryDataSource();
 
 }

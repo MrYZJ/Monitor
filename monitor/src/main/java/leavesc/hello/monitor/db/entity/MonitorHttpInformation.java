@@ -1,4 +1,4 @@
-package leavesc.hello.monitor.database.entity;
+package leavesc.hello.monitor.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import leavesc.hello.monitor.model.HttpInformation;
+import leavesc.hello.monitor.utils.FormatUtils;
 
 /**
  * 作者：leavesC
@@ -85,6 +86,14 @@ public class MonitorHttpInformation {
             default:
                 return String.valueOf(responseCode) + " " + path;
         }
+    }
+
+    public boolean isSsl() {
+        return "https".equals(scheme.toLowerCase());
+    }
+
+    public String getTotalSizeString() {
+        return FormatUtils.formatBytes(requestContentLength + responseContentLength);
     }
 
     public long getId() {

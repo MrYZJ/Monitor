@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import java.util.Date;
 
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
 import leavesc.hello.monitor.utils.JsonConverter;
 import okhttp3.Headers;

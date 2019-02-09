@@ -10,10 +10,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.LongSparseArray;
 
-import leavesc.hello.monitor.ClearMonitorService;
+import leavesc.hello.monitor.service.ClearMonitorService;
 import leavesc.hello.monitor.MonitorActivity;
 import leavesc.hello.monitor.R;
-import leavesc.hello.monitor.database.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 
 /**
  * 作者：leavesC
@@ -34,13 +34,13 @@ public class NotificationHolder {
 
     private static final int BUFFER_SIZE = 10;
 
-    private static final LongSparseArray<MonitorHttpInformation> transactionBuffer = new LongSparseArray<>();
+    private LongSparseArray<MonitorHttpInformation> transactionBuffer = new LongSparseArray<>();
 
     private Context context;
 
     private NotificationManager notificationManager;
 
-    private static int transactionCount;
+    private int transactionCount;
 
     private static volatile NotificationHolder instance;
 
@@ -72,15 +72,12 @@ public class NotificationHolder {
                 .setColor(ContextCompat.getColor(context, R.color.chuck_colorPrimary))
                 .setContentTitle(NOTIFICATION_TITLE);
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        int count = 0;
-        for (int i = transactionBuffer.size() - 1; i >= 0; i--) {
-            if (count < BUFFER_SIZE) {
-                if (count == 0) {
-                    builder.setContentText(transactionBuffer.valueAt(i).getNotificationText());
-                }
+        int size = transactionBuffer.size();
+        if (size > 0) {
+            builder.setContentText(transactionBuffer.valueAt(size - 1).getNotificationText());
+            for (int i = size - 1; i >= 0; i--) {
                 inboxStyle.addLine(transactionBuffer.valueAt(i).getNotificationText());
             }
-            count++;
         }
         builder.setAutoCancel(true);
         builder.setStyle(inboxStyle);
@@ -93,10 +90,8 @@ public class NotificationHolder {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    private static synchronized void addToBuffer(MonitorHttpInformation httpInformation) {
-        if (httpInformation.getStatus() == MonitorHttpInformation.Status.Requested) {
-            transactionCount++;
-        }
+    private synchronized void addToBuffer(MonitorHttpInformation httpInformation) {
+        transactionCount++;
         transactionBuffer.put(httpInformation.getId(), httpInformation);
         if (transactionBuffer.size() > BUFFER_SIZE) {
             transactionBuffer.removeAt(0);

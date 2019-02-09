@@ -31,6 +31,10 @@ import okhttp3.Headers;
  */
 public class FormatUtils {
 
+    public static String formatBytes(long bytes) {
+        return FormatUtils.formatByteCount(bytes, true);
+    }
+
     public static String formatHeaders(List<HttpHeader> httpHeaders, boolean withMarkup) {
         String out = "";
         if (httpHeaders != null) {
