@@ -21,7 +21,7 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
-                style="@style/Chuck.TextAppearance.TransactionTitle"
+                style="@style/monitor.TextAppearance.TransactionTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:text="Title" />

@@ -10,10 +10,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.LongSparseArray;
 
-import leavesc.hello.monitor.service.ClearMonitorService;
-import leavesc.hello.monitor.ui.MonitorActivity;
+import leavesc.hello.monitor.Monitor;
 import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.service.ClearMonitorService;
 
 /**
  * 作者：leavesC
@@ -108,9 +108,7 @@ public class NotificationHolder {
     }
 
     private PendingIntent getContentIntent(Context context) {
-        Intent intent = new Intent(context, MonitorActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        return PendingIntent.getActivity(context, 100, intent, 0);
+        return PendingIntent.getActivity(context, 100, Monitor.getLaunchIntent(context), 0);
     }
 
     private NotificationCompat.Action getClearAction() {

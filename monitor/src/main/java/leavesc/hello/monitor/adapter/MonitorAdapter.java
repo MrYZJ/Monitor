@@ -2,8 +2,10 @@ package leavesc.hello.monitor.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.recyclerview.extensions.AsyncListDiffer;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import java.util.List;
 
 import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.utils.FormatUtils;
 
 /**
  * 作者：leavesC
@@ -24,10 +27,6 @@ import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
 public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorViewHolder> {
-
-    public interface OnClickListener {
-        void onClick(int position, MonitorHttpInformation model);
-    }
 
     private final int colorDefault;
     private final int colorRequested;
@@ -69,19 +68,20 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
         final MonitorHttpInformation httpInformation = asyncListDiffer.getCurrentList().get(position);
         holder.tv_path.setText(String.format("%s %s", httpInformation.getMethod(), httpInformation.getPath()));
         holder.tv_host.setText(httpInformation.getHost());
-        holder.tv_requestDate.setText(httpInformation.getRequestDateFormat());
+        holder.tv_requestDate.setText(FormatUtils.getDateFormatShort(httpInformation.getRequestDate()));
         holder.iv_ssl.setVisibility(httpInformation.isSsl() ? View.VISIBLE : View.GONE);
         if (httpInformation.getStatus() == MonitorHttpInformation.Status.Complete) {
             holder.tv_code.setText(String.valueOf(httpInformation.getResponseCode()));
             holder.tv_duration.setText(httpInformation.getDurationFormat());
             holder.tv_size.setText(httpInformation.getTotalSizeString());
         } else {
-            holder.tv_code.setText(null);
+            if (httpInformation.getStatus() == MonitorHttpInformation.Status.Failed) {
+                holder.tv_code.setText("!!!");
+            } else {
+                holder.tv_code.setText(null);
+            }
             holder.tv_duration.setText(null);
             holder.tv_size.setText(null);
-        }
-        if (httpInformation.getStatus() == MonitorHttpInformation.Status.Failed) {
-            holder.tv_code.setText("!!!");
         }
         setStatusColor(holder, httpInformation);
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +145,30 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
             tv_size = view.findViewById(R.id.tv_size);
         }
 
+    }
+
+    private class DiffUtilItemCallback extends DiffUtil.ItemCallback<MonitorHttpInformation> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull MonitorHttpInformation oldItem, @NonNull MonitorHttpInformation newItem) {
+            return oldItem.getId() == newItem.getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull MonitorHttpInformation oldItem, @NonNull MonitorHttpInformation newItem) {
+            return oldItem.equals(newItem);
+        }
+
+        @Nullable
+        @Override
+        public Object getChangePayload(@NonNull MonitorHttpInformation oldItem, @NonNull MonitorHttpInformation newItem) {
+            return super.getChangePayload(oldItem, newItem);
+        }
+
+    }
+
+    public interface OnClickListener {
+        void onClick(int position, MonitorHttpInformation model);
     }
 
 }

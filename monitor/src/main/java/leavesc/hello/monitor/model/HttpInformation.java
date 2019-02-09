@@ -3,7 +3,9 @@ package leavesc.hello.monitor.model;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
@@ -60,20 +62,31 @@ public class HttpInformation {
             pack.setScheme(uri.getScheme());
         }
         pack.setProtocol(protocol);
-
-        pack.setRequestHeaders(JsonConverter.getInstance().toJson(requestHeaders));
+        if (requestHeaders != null) {
+            List<HttpHeader> httpHeaders = new ArrayList<>();
+            for (int i = 0, count = requestHeaders.size(); i < count; i++) {
+                httpHeaders.add(new HttpHeader(requestHeaders.name(i), requestHeaders.value(i)));
+            }
+            pack.setRequestHeaders(JsonConverter.getInstance().toJson(httpHeaders));
+        }
         pack.setRequestBody(FormatUtils.formatBody(requestBody, requestContentType));
         pack.setRequestContentType(requestContentType);
         pack.setRequestContentLength(requestContentLength);
-
+        pack.setRequestBodyIsPlainText(requestBodyIsPlainText);
         pack.setResponseCode(responseCode);
-        pack.setResponseHeaders(JsonConverter.getInstance().toJson(responseHeaders));
+        if (responseHeaders != null) {
+            List<HttpHeader> httpHeaders = new ArrayList<>();
+            for (int i = 0, count = responseHeaders.size(); i < count; i++) {
+                httpHeaders.add(new HttpHeader(responseHeaders.name(i), responseHeaders.value(i)));
+            }
+            pack.setResponseHeaders(JsonConverter.getInstance().toJson(httpHeaders));
+        }
         pack.setResponseBody(FormatUtils.formatBody(responseBody, responseContentType));
         pack.setResponseMessage(responseMessage);
         pack.setRequestContentType(responseContentType);
         pack.setResponseContentLength(responseContentLength);
+        pack.setResponseBodyIsPlainText(responseBodyIsPlainText);
         pack.setError(error);
-
         return pack;
     }
 

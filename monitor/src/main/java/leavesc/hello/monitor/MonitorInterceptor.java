@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import leavesc.hello.monitor.db.MonitorHttpInformationDatabase;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.holder.ContextHolder;
 import leavesc.hello.monitor.holder.NotificationHolder;
 import leavesc.hello.monitor.model.HttpInformation;
 import okhttp3.Headers;
@@ -47,6 +48,7 @@ public class MonitorInterceptor implements Interceptor {
 
     public MonitorInterceptor(Context context) {
         this.context = context.getApplicationContext();
+        ContextHolder.setContext(context);
     }
 
     @NonNull

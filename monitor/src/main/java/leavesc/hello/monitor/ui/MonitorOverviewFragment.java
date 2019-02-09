@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.utils.FormatUtils;
 import leavesc.hello.monitor.viewmodel.MonitorViewModel;
 
 /**
@@ -24,28 +25,18 @@ import leavesc.hello.monitor.viewmodel.MonitorViewModel;
  */
 public class MonitorOverviewFragment extends Fragment {
 
-    private TextView url;
-    private TextView method;
-    private TextView protocol;
-    private TextView status;
-    private TextView response;
-    private TextView ssl;
-    private TextView requestTime;
-    private TextView responseTime;
-    private TextView duration;
-    private TextView requestSize;
-    private TextView responseSize;
-    private TextView totalSize;
-
-    private static final String KEY_ID = "keyId";
-
-    public static MonitorOverviewFragment newInstance(long id) {
-        MonitorOverviewFragment fragment = new MonitorOverviewFragment();
-        Bundle bundle = new Bundle();
-        bundle.putLong(KEY_ID, id);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+    private TextView tv_url;
+    private TextView tv_method;
+    private TextView tv_protocol;
+    private TextView tv_status;
+    private TextView tv_response;
+    private TextView tv_ssl;
+    private TextView tv_requestTime;
+    private TextView tv_responseTime;
+    private TextView tv_duration;
+    private TextView tv_requestSize;
+    private TextView tv_responseSize;
+    private TextView tv_totalSize;
 
     public static MonitorOverviewFragment newInstance() {
         return new MonitorOverviewFragment();
@@ -58,18 +49,18 @@ public class MonitorOverviewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_monitor_overview, container, false);
-        url = view.findViewById(R.id.url);
-        method = view.findViewById(R.id.method);
-        protocol = view.findViewById(R.id.protocol);
-        status = view.findViewById(R.id.status);
-        response = view.findViewById(R.id.response);
-        ssl = view.findViewById(R.id.ssl);
-        requestTime = view.findViewById(R.id.request_time);
-        responseTime = view.findViewById(R.id.response_time);
-        duration = view.findViewById(R.id.duration);
-        requestSize = view.findViewById(R.id.request_size);
-        responseSize = view.findViewById(R.id.response_size);
-        totalSize = view.findViewById(R.id.total_size);
+        tv_url = view.findViewById(R.id.tv_url);
+        tv_method = view.findViewById(R.id.tv_method);
+        tv_protocol = view.findViewById(R.id.tv_protocol);
+        tv_status = view.findViewById(R.id.tv_status);
+        tv_response = view.findViewById(R.id.tv_response);
+        tv_ssl = view.findViewById(R.id.tv_ssl);
+        tv_requestTime = view.findViewById(R.id.tv_request_time);
+        tv_responseTime = view.findViewById(R.id.tv_response_time);
+        tv_duration = view.findViewById(R.id.tv_duration);
+        tv_requestSize = view.findViewById(R.id.tv_request_size);
+        tv_responseSize = view.findViewById(R.id.tv_response_size);
+        tv_totalSize = view.findViewById(R.id.tv_total_size);
         return view;
     }
 
@@ -81,18 +72,18 @@ public class MonitorOverviewFragment extends Fragment {
             @Override
             public void onChanged(@Nullable MonitorHttpInformation monitorHttpInformation) {
                 if (monitorHttpInformation != null) {
-                    url.setText(monitorHttpInformation.getUrl());
-                    method.setText(monitorHttpInformation.getMethod());
-                    protocol.setText(monitorHttpInformation.getProtocol());
-                    status.setText(monitorHttpInformation.getStatus().toString());
-                    response.setText(monitorHttpInformation.getResponseSummaryText());
-                    ssl.setText((monitorHttpInformation.isSsl() ? "Yes" : "No"));
-                    requestTime.setText(monitorHttpInformation.getRequestDateFormat());
-                    responseTime.setText(monitorHttpInformation.getResponseDateFormat());
-                    duration.setText(monitorHttpInformation.getDurationFormat());
-                    requestSize.setText(String.valueOf(monitorHttpInformation.getRequestContentLength()));
-                    responseSize.setText(String.valueOf(monitorHttpInformation.getResponseContentLength()));
-                    totalSize.setText(monitorHttpInformation.getTotalSizeString());
+                    tv_url.setText(monitorHttpInformation.getUrl());
+                    tv_method.setText(monitorHttpInformation.getMethod());
+                    tv_protocol.setText(monitorHttpInformation.getProtocol());
+                    tv_status.setText(monitorHttpInformation.getStatus().toString());
+                    tv_response.setText(monitorHttpInformation.getResponseSummaryText());
+                    tv_ssl.setText((monitorHttpInformation.isSsl() ? "Yes" : "No"));
+                    tv_requestTime.setText(FormatUtils.getDateFormatLong(monitorHttpInformation.getRequestDate()));
+                    tv_responseTime.setText(FormatUtils.getDateFormatLong(monitorHttpInformation.getResponseDate()));
+                    tv_duration.setText(monitorHttpInformation.getDurationFormat());
+                    tv_requestSize.setText(String.valueOf(monitorHttpInformation.getRequestContentLength()));
+                    tv_responseSize.setText(String.valueOf(monitorHttpInformation.getResponseContentLength()));
+                    tv_totalSize.setText(monitorHttpInformation.getTotalSizeString());
                 }
             }
         });

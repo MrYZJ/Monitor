@@ -10,7 +10,7 @@
     <color name="monitor_status_error">#f23f33</color>
     <color name="monitor_status_500">#efc70d0d</color>
     <color name="monitor_status_400">#f59b16</color>
-    <color name="monitor_status_300">#1855b4</color>
+    <color name="monitor_status_300">#206bdf</color>
 
     <color name="chuck_colorPrimary">#00BCD4</color>
 </resources>

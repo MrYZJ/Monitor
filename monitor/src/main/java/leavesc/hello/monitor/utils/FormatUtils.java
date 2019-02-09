@@ -7,7 +7,9 @@ import org.xml.sax.InputSource;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +32,25 @@ import okhttp3.Headers;
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
 public class FormatUtils {
+
+    private static final SimpleDateFormat TIME_SHORT = new SimpleDateFormat("HH:mm:ss SSS", Locale.CHINA);
+
+    private static final SimpleDateFormat TIME_LONG = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss SSS", Locale.CHINA);
+
+    private static String formatData(Date date, SimpleDateFormat format) {
+        if (date == null) {
+            return "";
+        }
+        return format.format(date);
+    }
+
+    public static String getDateFormatShort(Date date) {
+        return formatData(date, TIME_SHORT);
+    }
+
+    public static String getDateFormatLong(Date date) {
+        return formatData(date, TIME_LONG);
+    }
 
     public static String formatBytes(long bytes) {
         return FormatUtils.formatByteCount(bytes, true);

@@ -2,9 +2,11 @@ package leavesc.hello.sample;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import leavesc.hello.monitor.Monitor;
 import leavesc.hello.monitor.MonitorInterceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -27,17 +29,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        findViewById(R.id.do_http).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnDoHttp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 doHttpActivity();
+            }
+        });
+        findViewById(R.id.btnLaunchMonitor).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(Monitor.getLaunchIntent(MainActivity.this));
             }
         });
     }
 
     private OkHttpClient getClient(Context context) {
         return new OkHttpClient.Builder()
-                // Add a ChuckInterceptor instance to your OkHttp client
                 .addInterceptor(new MonitorInterceptor(context))
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
@@ -47,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
         SampleApiService.HttpApi api = SampleApiService.getInstance(getClient(this));
         Callback<Void> cb = new Callback<Void>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(@NonNull Call call, Throwable t) {
                 t.printStackTrace();
             }
         };

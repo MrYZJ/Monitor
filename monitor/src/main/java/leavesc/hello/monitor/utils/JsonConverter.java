@@ -30,8 +30,8 @@ public class JsonConverter {
         return JsonConverterHolder.instance.gson;
     }
 
-    public static class JsonConverterHolder {
-        public static final JsonConverter instance = new JsonConverter();
+    private static class JsonConverterHolder {
+        private static final JsonConverter instance = new JsonConverter();
     }
 
 }

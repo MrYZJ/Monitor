@@ -75,8 +75,8 @@ public class MonitorDetailsActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.viewpager);
         PagerAdapter fragmentPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         fragmentPagerAdapter.addFragment(MonitorOverviewFragment.newInstance(), "overview");
-        fragmentPagerAdapter.addFragment(MonitorOverviewFragment.newInstance(), "request");
-        fragmentPagerAdapter.addFragment(MonitorOverviewFragment.newInstance(), "response");
+        fragmentPagerAdapter.addFragment(MonitorPayloadFragment.newInstanceRequest(), "request");
+        fragmentPagerAdapter.addFragment(MonitorPayloadFragment.newInstanceResponse(), "response");
         viewPager.setAdapter(fragmentPagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);

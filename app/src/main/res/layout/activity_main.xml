@@ -7,10 +7,17 @@
     tools:context="leavesc.hello.sample.MainActivity">
 
     <Button
-        android:id="@+id/do_http"
+        android:id="@+id/btnDoHttp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Test"
+        android:text="网络请求"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnLaunchMonitor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动Monitor"
         android:textAllCaps="false" />
 
 </LinearLayout>

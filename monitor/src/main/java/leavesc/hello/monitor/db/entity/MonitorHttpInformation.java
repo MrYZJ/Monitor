@@ -2,15 +2,17 @@ package leavesc.hello.monitor.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
-import java.text.SimpleDateFormat;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 import java.util.Objects;
 
+import leavesc.hello.monitor.model.HttpHeader;
 import leavesc.hello.monitor.model.HttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
+import leavesc.hello.monitor.utils.JsonConverter;
 
 /**
  * 作者：leavesC
@@ -24,8 +26,6 @@ public class MonitorHttpInformation {
 
     public enum Status {Requested, Complete, Failed}
 
-    private static final SimpleDateFormat TIME_ONLY_FMT = new SimpleDateFormat("HH:mm:ss SSS", Locale.CHINA);
-
     @PrimaryKey(autoGenerate = true)
     private long id;
 
@@ -33,7 +33,6 @@ public class MonitorHttpInformation {
     private Date responseDate;
     private long duration;
     private String method;
-
     private String url;
     private String host;
     private String path;
@@ -44,6 +43,7 @@ public class MonitorHttpInformation {
     private String requestBody;
     private String requestContentType;
     private long requestContentLength;
+    private boolean requestBodyIsPlainText = true;
 
     private int responseCode = HttpInformation.DEFAULT_RESPONSE_CODE;
     private String responseHeaders;
@@ -51,6 +51,7 @@ public class MonitorHttpInformation {
     private String responseMessage;
     private String responseContentType;
     private long responseContentLength;
+    private boolean responseBodyIsPlainText = true;
 
     private String error;
 
@@ -62,20 +63,6 @@ public class MonitorHttpInformation {
         } else {
             return Status.Complete;
         }
-    }
-
-    public String getRequestDateFormat() {
-        if (requestDate == null) {
-            return "";
-        }
-        return TIME_ONLY_FMT.format(requestDate);
-    }
-
-    public String getResponseDateFormat() {
-        if (responseDate == null) {
-            return "";
-        }
-        return TIME_ONLY_FMT.format(responseDate);
     }
 
     public String getNotificationText() {
@@ -100,12 +87,40 @@ public class MonitorHttpInformation {
         }
     }
 
+    private List<HttpHeader> getRequestHeaderList() {
+        return JsonConverter.getInstance().fromJson(requestHeaders,
+                new TypeToken<List<HttpHeader>>() {
+                }.getType());
+    }
+
+    public String getRequestHeadersString(boolean withMarkup) {
+        return FormatUtils.formatHeaders(getRequestHeaderList(), withMarkup);
+    }
+
+    public String getFormattedRequestBody() {
+        return FormatUtils.formatBody(requestBody, requestContentType);
+    }
+
+    public String getFormattedResponseBody() {
+        return FormatUtils.formatBody(responseBody, responseContentType);
+    }
+
+    private List<HttpHeader> getResponseHeaderList() {
+        return JsonConverter.getInstance().fromJson(responseHeaders,
+                new TypeToken<List<HttpHeader>>() {
+                }.getType());
+    }
+
+    public String getResponseHeadersString(boolean withMarkup) {
+        return FormatUtils.formatHeaders(getResponseHeaderList(), withMarkup);
+    }
+
     public String getDurationFormat() {
         return duration + " ms";
     }
 
     public boolean isSsl() {
-        return "https".equals(scheme.toLowerCase());
+        return "https".equalsIgnoreCase(scheme);
     }
 
     public String getTotalSizeString() {
@@ -224,6 +239,14 @@ public class MonitorHttpInformation {
         this.requestContentLength = requestContentLength;
     }
 
+    public boolean isRequestBodyIsPlainText() {
+        return requestBodyIsPlainText;
+    }
+
+    public void setRequestBodyIsPlainText(boolean requestBodyIsPlainText) {
+        this.requestBodyIsPlainText = requestBodyIsPlainText;
+    }
+
     public int getResponseCode() {
         return responseCode;
     }
@@ -272,40 +295,20 @@ public class MonitorHttpInformation {
         this.responseContentLength = responseContentLength;
     }
 
+    public boolean isResponseBodyIsPlainText() {
+        return responseBodyIsPlainText;
+    }
+
+    public void setResponseBodyIsPlainText(boolean responseBodyIsPlainText) {
+        this.responseBodyIsPlainText = responseBodyIsPlainText;
+    }
+
     public String getError() {
         return error;
     }
 
     public void setError(String error) {
         this.error = error;
-    }
-
-    @NonNull
-    @Override
-    public String toString() {
-        return "MonitorHttpInformation{" +
-                "id=" + id +
-                ", requestDate=" + requestDate +
-                ", responseDate=" + responseDate +
-                ", duration=" + duration +
-                ", method='" + method + '\'' +
-                ", url='" + url + '\'' +
-                ", host='" + host + '\'' +
-                ", path='" + path + '\'' +
-                ", scheme='" + scheme + '\'' +
-                ", protocol='" + protocol + '\'' +
-                ", requestHeaders='" + requestHeaders + '\'' +
-                ", requestBody='" + requestBody + '\'' +
-                ", requestContentType='" + requestContentType + '\'' +
-                ", requestContentLength=" + requestContentLength +
-                ", responseCode=" + responseCode +
-                ", responseHeaders='" + responseHeaders + '\'' +
-                ", responseBody='" + responseBody + '\'' +
-                ", responseMessage='" + responseMessage + '\'' +
-                ", responseContentType='" + responseContentType + '\'' +
-                ", responseContentLength=" + responseContentLength +
-                ", error='" + error + '\'' +
-                '}';
     }
 
     @Override
@@ -316,8 +319,10 @@ public class MonitorHttpInformation {
         return id == that.id &&
                 duration == that.duration &&
                 requestContentLength == that.requestContentLength &&
+                requestBodyIsPlainText == that.requestBodyIsPlainText &&
                 responseCode == that.responseCode &&
                 responseContentLength == that.responseContentLength &&
+                responseBodyIsPlainText == that.responseBodyIsPlainText &&
                 Objects.equals(requestDate, that.requestDate) &&
                 Objects.equals(responseDate, that.responseDate) &&
                 Objects.equals(method, that.method) &&
@@ -338,7 +343,7 @@ public class MonitorHttpInformation {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestDate, responseDate, duration, method, url, host, path, scheme, protocol, requestHeaders, requestBody, requestContentType, requestContentLength, responseCode, responseHeaders, responseBody, responseMessage, responseContentType, responseContentLength, error);
+        return Objects.hash(id, requestDate, responseDate, duration, method, url, host, path, scheme, protocol, requestHeaders, requestBody, requestContentType, requestContentLength, requestBodyIsPlainText, responseCode, responseHeaders, responseBody, responseMessage, responseContentType, responseContentLength, responseBodyIsPlainText, error);
     }
 
 }
