@@ -104,8 +104,12 @@ public class MonitorPayloadFragment extends Fragment {
     }
 
     private void setText(String headersString, String bodyString, boolean isPlainText) {
-        tvHeaders.setVisibility((TextUtils.isEmpty(headersString) ? View.GONE : View.VISIBLE));
-        tvHeaders.setText(Html.fromHtml(headersString));
+        if (TextUtils.isEmpty(headersString)) {
+            tvHeaders.setVisibility(View.GONE);
+        } else {
+            tvHeaders.setVisibility(View.VISIBLE);
+            tvHeaders.setText(Html.fromHtml(headersString));
+        }
         if (!isPlainText) {
             tvBody.setText("(encoded or binary body omitted)");
         } else {

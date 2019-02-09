@@ -1,5 +1,7 @@
 package leavesc.hello.monitor.utils;
 
+import android.text.TextUtils;
+
 import com.google.gson.JsonParser;
 
 import org.xml.sax.InputSource;
@@ -19,6 +21,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
 import leavesc.hello.monitor.db.entity.HttpHeader;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 
 /**
  * 作者：leavesC
@@ -52,7 +55,7 @@ public class FormatUtils {
         return FormatUtils.formatByteCount(bytes, true);
     }
 
-    public static String formatByteCount(long bytes, boolean si) {
+    private static String formatByteCount(long bytes, boolean si) {
         int unit = si ? 1000 : 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));
@@ -107,68 +110,42 @@ public class FormatUtils {
         }
     }
 
-//    public static String getShareText(Context context, HttpInformation transaction) {
-//        String text = "";
-//        text += "Url" + ": " + v(transaction.getUrl()) + "\n";
-//        text += "Method" + ": " + v(transaction.getMethod()) + "\n";
-//        text += "Protocol" + ": " + v(transaction.getProtocol()) + "\n";
-//        text += "Status" + ": " + v(transaction.getStatus().toString()) + "\n";
-//        text += "Response" + ": " + v(transaction.getResponseSummaryText()) + "\n";
-//        text += "SSL" + ": " + transaction.isSsl() + "\n";
-//        text += "\n";
-//        text += "Request Time" + ": " + v(transaction.getRequestDateString()) + "\n";
-//        text += "Response Time" + ": " + v(transaction.getResponseDateString()) + "\n";
-//        text += "Duration" + ": " + v(transaction.getDurationString()) + "\n";
-//        text += "\n";
-//        text += "Request Size" + ": " + v(transaction.getRequestSizeString()) + "\n";
-//        text += "Response Size" + ": " + v(transaction.getResponseSizeString()) + "\n";
-//        text += "Total Size" + ": " + v(transaction.getTotalSizeString()) + "\n";
-//        text += "\n";
-//        text += "---------- " + "Request" + " ----------\n\n";
-//        String headers = formatHeaders(transaction.getRequestHeaders(), false);
-//        if (!TextUtils.isEmpty(headers)) {
-//            text += headers + "\n";
-//        }
-//        text += (transaction.requestBodyIsPlainText()) ? v(transaction.getFormattedRequestBody()) :
-//                "encoded or binary body omitted";
-//        text += "\n\n";
-//        text += "---------- " + "Response" + " ----------\n\n";
-//        headers = formatHeaders(transaction.getResponseHeaders(), false);
-//        if (!TextUtils.isEmpty(headers)) {
-//            text += headers + "\n";
-//        }
-//        text += (transaction.responseBodyIsPlainText()) ? v(transaction.getFormattedResponseBody()) :
-//                "(encoded or binary body omitted)";
-//        return text;
-//    }
+    public static String getShareText(HttpInformation httpInformation) {
+        String text = "";
+        text += "Url" + ": " + check(httpInformation.getUrl()) + "\n";
+        text += "Method" + ": " + check(httpInformation.getMethod()) + "\n";
+        text += "Protocol" + ": " + check(httpInformation.getProtocol()) + "\n";
+        text += "Status" + ": " + check(httpInformation.getStatus().toString()) + "\n";
+        text += "Response" + ": " + check(httpInformation.getResponseSummaryText()) + "\n";
+        text += "SSL" + ": " + httpInformation.isSsl() + "\n";
+        text += "\n";
+        text += "Request Time" + ": " + FormatUtils.getDateFormatLong(httpInformation.getRequestDate()) + "\n";
+        text += "Response Time" + ": " + FormatUtils.getDateFormatLong(httpInformation.getResponseDate()) + "\n";
+        text += "Duration" + ": " + check(httpInformation.getDurationFormat()) + "\n";
+        text += "\n";
+        text += "Request Size" + ": " + FormatUtils.formatBytes(httpInformation.getRequestContentLength()) + "\n";
+        text += "Response Size" + ": " + FormatUtils.formatBytes(httpInformation.getResponseContentLength()) + "\n";
+        text += "Total Size" + ": " + check(httpInformation.getTotalSizeString()) + "\n";
+        text += "\n";
+        text += "---------- " + "Request" + " ----------\n\n";
+        String headers = httpInformation.getRequestHeadersString(false);
+        if (!TextUtils.isEmpty(headers)) {
+            text += headers + "\n";
+        }
+        text += (httpInformation.isRequestBodyIsPlainText()) ? check(httpInformation.getFormattedRequestBody()) :
+                "(encoded or binary body omitted)";
+        text += "\n";
+        text += "---------- " + "Response" + " ----------\n\n";
+        headers = httpInformation.getResponseHeadersString(false);
+        if (!TextUtils.isEmpty(headers)) {
+            text += headers + "\n";
+        }
+        text += (httpInformation.isResponseBodyIsPlainText()) ? check(httpInformation.getFormattedResponseBody()) :
+                "(encoded or binary body omitted)";
+        return text;
+    }
 
-//    public static String getShareCurlCommand(HttpInformation transaction) {
-//        boolean compressed = false;
-//        String curlCmd = "curl";
-//        curlCmd += " -X " + transaction.getMethod();
-//        Headers headers = transaction.getRequestHeaders();
-//        List<HttpHeader> headerList = new ArrayList<>();
-//        for (int i = 0, count = headers.size(); i < count; i++) {
-//            headerList.add(new HttpHeader(headers.name(i), headers.value(i)));
-//        }
-//        for (int i = 0, count = headers.size(); i < count; i++) {
-//            String name = headerList.get(i).getName();
-//            String value = headerList.get(i).getValue();
-//            if ("Accept-Encoding".equalsIgnoreCase(name) && "gzip".equalsIgnoreCase(value)) {
-//                compressed = true;
-//            }
-//            curlCmd += " -H " + "\"" + name + ": " + value + "\"";
-//        }
-//        String requestBody = transaction.getRequestBody();
-//        if (requestBody != null && requestBody.length() > 0) {
-//            // try to keep to a single line and use a subshell to preserve any line breaks
-//            curlCmd += " --data $'" + requestBody.replace("\n", "\\n") + "'";
-//        }
-//        curlCmd += ((compressed) ? " --compressed " : " ") + transaction.getUrl();
-//        return curlCmd;
-//    }
-
-    private static String v(String string) {
+    private static String check(String string) {
         return (string != null) ? string : "";
     }
 

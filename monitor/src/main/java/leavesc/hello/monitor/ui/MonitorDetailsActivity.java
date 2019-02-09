@@ -14,6 +14,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
 
 import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.db.entity.HttpInformation;
+import leavesc.hello.monitor.utils.FormatUtils;
 import leavesc.hello.monitor.viewmodel.MonitorViewModel;
 
 /**
@@ -44,6 +47,8 @@ public class MonitorDetailsActivity extends AppCompatActivity {
 
     private TextView title;
 
+    private HttpInformation httpInformation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,9 +59,10 @@ public class MonitorDetailsActivity extends AppCompatActivity {
         monitorViewModel.queryRecordById(id);
         monitorViewModel.getRecordLiveData().observe(this, new Observer<HttpInformation>() {
             @Override
-            public void onChanged(@Nullable HttpInformation HttpInformation) {
-                if (HttpInformation != null) {
-                    title.setText(String.format("%s  %s", HttpInformation.getMethod(), HttpInformation.getPath()));
+            public void onChanged(@Nullable HttpInformation httpInformation) {
+                MonitorDetailsActivity.this.httpInformation = httpInformation;
+                if (httpInformation != null) {
+                    title.setText(String.format("%s  %s", httpInformation.getMethod(), httpInformation.getPath()));
                 } else {
                     title.setText(null);
                 }
@@ -116,6 +122,30 @@ public class MonitorDetailsActivity extends AppCompatActivity {
 
     private void initViewModel() {
         monitorViewModel = ViewModelProviders.of(this).get(MonitorViewModel.class);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_share, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.share) {
+            if (httpInformation != null) {
+                share(FormatUtils.getShareText(httpInformation));
+            }
+        }
+        return true;
+    }
+
+    private void share(String content) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+        sendIntent.setType("text/plain");
+        startActivity(Intent.createChooser(sendIntent, null));
     }
 
 }
