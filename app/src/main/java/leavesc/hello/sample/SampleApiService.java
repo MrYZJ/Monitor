@@ -8,6 +8,7 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -23,13 +24,22 @@ import retrofit2.http.Query;
  */
 public class SampleApiService {
 
-    static HttpApi getInstance(OkHttpClient client) {
+    static HttpApi_1 getInstance_1(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://httpbin.org")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-        return retrofit.create(HttpApi.class);
+        return retrofit.create(HttpApi_1.class);
+    }
+
+    static HttpApi_2 getInstance_2(OkHttpClient client) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.apiopen.top")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+        return retrofit.create(HttpApi_2.class);
     }
 
     static class Data {
@@ -40,7 +50,7 @@ public class SampleApiService {
         }
     }
 
-    interface HttpApi {
+    interface HttpApi_1 {
 
         @GET("/get")
         Call<Void> get();
@@ -114,6 +124,25 @@ public class SampleApiService {
         @GET("/cache/{seconds}")
         Call<Void> cache(@Path("seconds") int seconds);
 
+    }
+
+    interface HttpApi_2 {
+
+        @GET("/singlePoetry")
+        @Headers({"testHeader" + ":" + "singlePoetry"})
+        Call<String> singlePoetry();
+
+        @GET("/recommendPoetry")
+        @Headers({"testHeader" + ":" + "recommendPoetry"})
+        Call<String> recommendPoetry();
+
+        @GET("/musicBroadcasting")
+        @Headers({"testHeader" + ":" + "musicBroadcasting"})
+        Call<String> musicBroadcasting();
+
+        @GET("/novelApi")
+        @Headers({"testHeader" + ":" + "novelApi"})
+        Call<String> novelApi();
     }
 
 }

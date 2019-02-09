@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -69,7 +70,7 @@ public class NotificationHolder {
                 .setContentIntent(getContentIntent(context))
                 .setLocalOnly(true)
                 .setSmallIcon(R.drawable.ic_launcher)
-                .setColor(ContextCompat.getColor(context, R.color.chuck_colorPrimary))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
                 .setContentTitle(NOTIFICATION_TITLE);
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         int size = transactionBuffer.size();

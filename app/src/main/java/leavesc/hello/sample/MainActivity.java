@@ -37,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
                 doHttpActivity();
             }
         });
+        findViewById(R.id.btnDoHttp2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doHttpActivity2();
+            }
+        });
         findViewById(R.id.btnLaunchMonitor).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doHttpActivity() {
-        SampleApiService.HttpApi api = SampleApiService.getInstance(okHttpClient);
+        SampleApiService.HttpApi_1 api = SampleApiService.getInstance_1(okHttpClient);
         Callback<Void> cb = new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {
@@ -91,6 +97,24 @@ public class MainActivity extends AppCompatActivity {
         api.deny().enqueue(cb);
         api.cache("Mon").enqueue(cb);
         api.cache(30).enqueue(cb);
+    }
+
+    private void doHttpActivity2() {
+        SampleApiService.HttpApi_2 api = SampleApiService.getInstance_2(okHttpClient);
+        Callback<String> cb = new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
+            }
+
+            @Override
+            public void onFailure(@NonNull Call call, Throwable t) {
+                t.printStackTrace();
+            }
+        };
+        api.singlePoetry().enqueue(cb);
+        api.recommendPoetry().enqueue(cb);
+        api.musicBroadcasting().enqueue(cb);
+        api.novelApi().enqueue(cb);
     }
 
 }
