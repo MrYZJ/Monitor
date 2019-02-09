@@ -56,7 +56,7 @@ public class MonitorDetailsActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable HttpInformation HttpInformation) {
                 if (HttpInformation != null) {
-                    title.setText(String.format("%s %s", HttpInformation.getMethod(), HttpInformation.getPath()));
+                    title.setText(String.format("%s  %s", HttpInformation.getMethod(), HttpInformation.getPath()));
                 } else {
                     title.setText(null);
                 }

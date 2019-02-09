@@ -31,7 +31,7 @@ public class FormatUtils {
 
     private static final SimpleDateFormat TIME_SHORT = new SimpleDateFormat("HH:mm:ss SSS", Locale.CHINA);
 
-    private static final SimpleDateFormat TIME_LONG = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss SSS", Locale.CHINA);
+    private static final SimpleDateFormat TIME_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS", Locale.CHINA);
 
     private static String formatData(Date date, SimpleDateFormat format) {
         if (date == null) {

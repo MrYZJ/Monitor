@@ -81,8 +81,8 @@ public class MonitorOverviewFragment extends Fragment {
                     tv_requestTime.setText(FormatUtils.getDateFormatLong(monitorHttpInformation.getRequestDate()));
                     tv_responseTime.setText(FormatUtils.getDateFormatLong(monitorHttpInformation.getResponseDate()));
                     tv_duration.setText(monitorHttpInformation.getDurationFormat());
-                    tv_requestSize.setText(String.valueOf(monitorHttpInformation.getRequestContentLength()));
-                    tv_responseSize.setText(String.valueOf(monitorHttpInformation.getResponseContentLength()));
+                    tv_requestSize.setText(FormatUtils.formatBytes(monitorHttpInformation.getRequestContentLength()));
+                    tv_responseSize.setText(FormatUtils.formatBytes(monitorHttpInformation.getResponseContentLength()));
                     tv_totalSize.setText(monitorHttpInformation.getTotalSizeString());
                 }
             }

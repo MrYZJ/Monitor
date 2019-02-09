@@ -113,7 +113,7 @@
                 style="@style/monitor.TextAppearance.Label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ssl" />
+                android:text="SSL" />
 
             <TextView
                 android:id="@+id/tv_ssl"

@@ -13,7 +13,7 @@ public class HttpHeader {
 
     private String value;
 
-    public HttpHeader(String name, String value) {
+    HttpHeader(String name, String value) {
         this.name = name;
         this.value = value;
     }
