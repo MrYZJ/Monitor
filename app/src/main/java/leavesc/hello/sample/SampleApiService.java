@@ -57,8 +57,8 @@ public class SampleApiService {
         @DELETE("/delete")
         Call<Void> delete();
 
-        @GET("/status/{code}")
-        Call<Void> status(@Path("code") int code);
+        @GET("/status/{tv_code}")
+        Call<Void> status(@Path("tv_code") int code);
 
         @GET("/stream/{lines}")
         Call<Void> stream(@Path("lines") int lines);
@@ -103,7 +103,7 @@ public class SampleApiService {
         Call<Void> basicAuth(@Path("user") String user, @Path("passwd") String passwd);
 
         @GET("/drip")
-        Call<Void> drip(@Query("numbytes") int bytes, @Query("duration") int seconds, @Query("delay") int delay, @Query("code") int code);
+        Call<Void> drip(@Query("numbytes") int bytes, @Query("duration") int seconds, @Query("delay") int delay, @Query("tv_code") int code);
 
         @GET("/deny")
         Call<Void> deny();

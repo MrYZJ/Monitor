@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import leavesc.hello.monitor.adapter.MonitorAdapter;
@@ -29,8 +28,6 @@ public class MonitorActivity extends AppCompatActivity {
 
     private static final String TAG = "MonitorActivity";
 
-    private List<MonitorHttpInformation> dataList = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +43,7 @@ public class MonitorActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final MonitorAdapter adapter = new MonitorAdapter(this, dataList);
+        final MonitorAdapter adapter = new MonitorAdapter(this);
         adapter.setClickListener(new MonitorAdapter.OnClickListener() {
             @Override
             public void onClick(int position, MonitorHttpInformation model) {
@@ -57,11 +54,7 @@ public class MonitorActivity extends AppCompatActivity {
         monitorViewModel.getRecordLiveData().observe(this, new Observer<List<MonitorHttpInformation>>() {
             @Override
             public void onChanged(@Nullable List<MonitorHttpInformation> monitorHttpInformationList) {
-                dataList.clear();
-                if (monitorHttpInformationList != null) {
-                    dataList.addAll(monitorHttpInformationList);
-                }
-                adapter.notifyDataSetChanged();
+                adapter.setData(monitorHttpInformationList);
             }
         });
     }

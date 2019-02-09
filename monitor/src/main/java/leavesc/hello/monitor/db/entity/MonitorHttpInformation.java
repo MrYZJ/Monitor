@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
 
 import leavesc.hello.monitor.model.HttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
@@ -290,6 +291,39 @@ public class MonitorHttpInformation {
                 ", responseContentLength=" + responseContentLength +
                 ", error='" + error + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MonitorHttpInformation that = (MonitorHttpInformation) o;
+        return id == that.id &&
+                duration == that.duration &&
+                requestContentLength == that.requestContentLength &&
+                responseCode == that.responseCode &&
+                responseContentLength == that.responseContentLength &&
+                Objects.equals(requestDate, that.requestDate) &&
+                Objects.equals(responseDate, that.responseDate) &&
+                Objects.equals(method, that.method) &&
+                Objects.equals(url, that.url) &&
+                Objects.equals(host, that.host) &&
+                Objects.equals(path, that.path) &&
+                Objects.equals(scheme, that.scheme) &&
+                Objects.equals(protocol, that.protocol) &&
+                Objects.equals(requestHeaders, that.requestHeaders) &&
+                Objects.equals(requestBody, that.requestBody) &&
+                Objects.equals(requestContentType, that.requestContentType) &&
+                Objects.equals(responseHeaders, that.responseHeaders) &&
+                Objects.equals(responseBody, that.responseBody) &&
+                Objects.equals(responseMessage, that.responseMessage) &&
+                Objects.equals(responseContentType, that.responseContentType) &&
+                Objects.equals(error, that.error);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, requestDate, responseDate, duration, method, url, host, path, scheme, protocol, requestHeaders, requestBody, requestContentType, requestContentLength, responseCode, responseHeaders, responseBody, responseMessage, responseContentType, responseContentLength, error);
     }
 
 }

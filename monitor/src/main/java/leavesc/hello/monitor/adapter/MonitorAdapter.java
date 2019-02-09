@@ -3,6 +3,7 @@ package leavesc.hello.monitor.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.recyclerview.extensions.AsyncListDiffer;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import leavesc.hello.monitor.R;
@@ -24,7 +26,9 @@ import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
  */
 public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorViewHolder> {
 
-    private List<MonitorHttpInformation> dataList;
+    public interface OnClickListener {
+        void onClick(int position, MonitorHttpInformation model);
+    }
 
     private final int colorDefault;
     private final int colorRequested;
@@ -33,20 +37,26 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
     private final int color400;
     private final int color300;
 
-    public interface OnClickListener {
-        void onClick(int position, MonitorHttpInformation model);
-    }
-
     private OnClickListener clickListener;
 
-    public MonitorAdapter(Context context, List<MonitorHttpInformation> dataList) {
-        this.dataList = dataList;
+    private AsyncListDiffer<MonitorHttpInformation> asyncListDiffer;
+
+    public MonitorAdapter(Context context) {
+        asyncListDiffer = new AsyncListDiffer<>(this, new DiffUtilItemCallback());
         colorDefault = ContextCompat.getColor(context, R.color.chuck_status_default);
         colorRequested = ContextCompat.getColor(context, R.color.chuck_status_requested);
         colorError = ContextCompat.getColor(context, R.color.chuck_status_error);
         color500 = ContextCompat.getColor(context, R.color.chuck_status_500);
         color400 = ContextCompat.getColor(context, R.color.chuck_status_400);
         color300 = ContextCompat.getColor(context, R.color.chuck_status_300);
+    }
+
+    public void setData(List<MonitorHttpInformation> dataList) {
+        asyncListDiffer.submitList(dataList);
+    }
+
+    public void clear() {
+        asyncListDiffer.submitList(null);
     }
 
     @NonNull
@@ -57,22 +67,22 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     @Override
     public void onBindViewHolder(@NonNull final MonitorViewHolder holder, int position) {
-        final MonitorHttpInformation transaction = dataList.get(position);
-        holder.path.setText(transaction.getMethod() + " " + transaction.getPath());
-        holder.host.setText(transaction.getHost());
-        holder.start.setText(transaction.getRequestDateFormat());
-        holder.ssl.setVisibility(transaction.isSsl() ? View.VISIBLE : View.GONE);
+        final MonitorHttpInformation transaction = asyncListDiffer.getCurrentList().get(position);
+        holder.tv_path.setText(String.format("%s %s", transaction.getMethod(), transaction.getPath()));
+        holder.tv_host.setText(transaction.getHost());
+        holder.tv_requestDate.setText(transaction.getRequestDateFormat());
+        holder.iv_ssl.setVisibility(transaction.isSsl() ? View.VISIBLE : View.GONE);
         if (transaction.getStatus() == MonitorHttpInformation.Status.Complete) {
-            holder.code.setText(String.valueOf(transaction.getResponseCode()));
-            holder.duration.setText(String.valueOf(transaction.getDuration()));
-            holder.size.setText(transaction.getTotalSizeString());
+            holder.tv_code.setText(String.valueOf(transaction.getResponseCode()));
+            holder.tv_duration.setText(MessageFormat.format("{0}ms", transaction.getDuration()));
+            holder.tv_size.setText(transaction.getTotalSizeString());
         } else {
-            holder.code.setText(null);
-            holder.duration.setText(null);
-            holder.size.setText(null);
+            holder.tv_code.setText(null);
+            holder.tv_duration.setText(null);
+            holder.tv_size.setText(null);
         }
         if (transaction.getStatus() == MonitorHttpInformation.Status.Failed) {
-            holder.code.setText("!!!");
+            holder.tv_code.setText("!!!");
         }
         setStatusColor(holder, transaction);
         holder.view.setOnClickListener(new View.OnClickListener() {
@@ -100,16 +110,13 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
         } else {
             color = colorDefault;
         }
-        holder.code.setTextColor(color);
-        holder.path.setTextColor(color);
+        holder.tv_code.setTextColor(color);
+        holder.tv_path.setTextColor(color);
     }
 
     @Override
     public int getItemCount() {
-        if (dataList == null) {
-            return 0;
-        }
-        return dataList.size();
+        return asyncListDiffer.getCurrentList().size();
     }
 
     public void setClickListener(OnClickListener clickListener) {
@@ -119,24 +126,24 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
     static class MonitorViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
-        public final TextView code;
-        public final TextView path;
-        public final TextView host;
-        public final TextView start;
-        public final TextView duration;
-        public final TextView size;
-        public final ImageView ssl;
+        public final TextView tv_code;
+        public final TextView tv_path;
+        public final TextView tv_host;
+        public final ImageView iv_ssl;
+        public final TextView tv_requestDate;
+        public final TextView tv_duration;
+        public final TextView tv_size;
 
         MonitorViewHolder(@NonNull ViewGroup viewGroup) {
-            super(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.chuck_list_item_transaction, viewGroup, false));
+            super(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_monitor, viewGroup, false));
             this.view = itemView;
-            code = (TextView) view.findViewById(R.id.code);
-            path = (TextView) view.findViewById(R.id.path);
-            host = (TextView) view.findViewById(R.id.host);
-            start = (TextView) view.findViewById(R.id.start);
-            duration = (TextView) view.findViewById(R.id.duration);
-            size = (TextView) view.findViewById(R.id.size);
-            ssl = (ImageView) view.findViewById(R.id.ssl);
+            tv_code = view.findViewById(R.id.tv_code);
+            tv_path = view.findViewById(R.id.tv_path);
+            tv_host = view.findViewById(R.id.tv_host);
+            iv_ssl = view.findViewById(R.id.iv_ssl);
+            tv_requestDate = view.findViewById(R.id.tv_requestDate);
+            tv_duration = view.findViewById(R.id.tv_duration);
+            tv_size = view.findViewById(R.id.tv_size);
         }
 
     }

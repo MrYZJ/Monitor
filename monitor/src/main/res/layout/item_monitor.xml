@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
+
+    <TextView
+        android:id="@+id/tv_code"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/commonPadding"
+        android:textAppearance="@style/monitor.title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="200" />
+
+    <TextView
+        android:id="@+id/tv_path"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingStart="@dimen/commonPadding"
+        android:paddingTop="@dimen/commonPadding"
+        android:paddingBottom="@dimen/commonPadding"
+        android:textAppearance="@style/monitor.title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_code"
+        app:layout_constraintTop_toTopOf="@id/tv_code"
+        tools:text="Get /github.com/leavesC" />
+
+    <TextView
+        android:id="@+id/tv_host"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/commonPadding"
+        android:textAppearance="@style/monitor.content"
+        app:layout_constraintStart_toStartOf="@id/tv_path"
+        app:layout_constraintTop_toBottomOf="@id/tv_path"
+        tools:text="github.com" />
+
+    <ImageView
+        android:id="@+id/iv_ssl"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/icon_ssl"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_host"
+        app:layout_constraintStart_toEndOf="@id/tv_host"
+        app:layout_constraintTop_toTopOf="@id/tv_host" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:padding="@dimen/commonPadding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tv_path"
+        app:layout_constraintTop_toBottomOf="@id/tv_host">
+
+        <TextView
+            android:id="@+id/tv_requestDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAppearance="@style/monitor.content"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/tv_duration"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="18:29:07" />
+
+        <TextView
+            android:id="@+id/tv_duration"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAppearance="@style/monitor.content"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/tv_requestDate"
+            app:layout_constraintRight_toLeftOf="@+id/tv_size"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="8023 ms" />
+
+        <TextView
+            android:id="@+id/tv_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAppearance="@style/monitor.content"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toRightOf="@+id/tv_duration"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="16.45 KB" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#c9d0d7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
+
+</android.support.constraint.ConstraintLayout>
