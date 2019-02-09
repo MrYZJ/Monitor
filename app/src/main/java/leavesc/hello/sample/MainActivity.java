@@ -1,6 +1,5 @@
 package leavesc.hello.sample;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -25,10 +24,13 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
 
+    private OkHttpClient okHttpClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initClient();
         findViewById(R.id.btnDoHttp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -43,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private OkHttpClient getClient(Context context) {
-        return new OkHttpClient.Builder()
-                .addInterceptor(new MonitorInterceptor(context))
+    private void initClient() {
+        okHttpClient = new OkHttpClient.Builder()
+                .addInterceptor(new MonitorInterceptor(this))
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
     }
 
     private void doHttpActivity() {
-        SampleApiService.HttpApi api = SampleApiService.getInstance(getClient(this));
+        SampleApiService.HttpApi api = SampleApiService.getInstance(okHttpClient);
         Callback<Void> cb = new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) {

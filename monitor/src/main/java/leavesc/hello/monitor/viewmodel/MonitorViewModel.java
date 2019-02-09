@@ -6,9 +6,9 @@ import android.arch.lifecycle.ViewModel;
 import java.util.List;
 
 import leavesc.hello.monitor.db.MonitorHttpInformationDatabase;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 import leavesc.hello.monitor.holder.ContextHolder;
 import leavesc.hello.monitor.holder.NotificationHolder;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 
 /**
  * 作者：leavesC
@@ -19,9 +19,9 @@ import leavesc.hello.monitor.holder.NotificationHolder;
  */
 public class MonitorViewModel extends ViewModel {
 
-    private LiveData<List<MonitorHttpInformation>> allRecordLiveData;
+    private LiveData<List<HttpInformation>> allRecordLiveData;
 
-    private LiveData<MonitorHttpInformation> recordLiveData;
+    private LiveData<HttpInformation> recordLiveData;
 
     private static final int LIMIT = 300;
 
@@ -46,11 +46,11 @@ public class MonitorViewModel extends ViewModel {
         recordLiveData = MonitorHttpInformationDatabase.getInstance(ContextHolder.getContext()).getHttpInformationDao().queryRecordObservable(id);
     }
 
-    public LiveData<List<MonitorHttpInformation>> getAllRecordLiveData() {
+    public LiveData<List<HttpInformation>> getAllRecordLiveData() {
         return allRecordLiveData;
     }
 
-    public LiveData<MonitorHttpInformation> getRecordLiveData() {
+    public LiveData<HttpInformation> getRecordLiveData() {
         return recordLiveData;
     }
 

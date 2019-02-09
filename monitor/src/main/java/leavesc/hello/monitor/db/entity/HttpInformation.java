@@ -5,24 +5,26 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import leavesc.hello.monitor.model.HttpHeader;
-import leavesc.hello.monitor.model.HttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
 import leavesc.hello.monitor.utils.JsonConverter;
+import okhttp3.Headers;
 
 /**
  * 作者：leavesC
- * 时间：2019/2/8 21:03
+ * 时间：2019/2/8 21:01
  * 描述：
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
 @Entity(tableName = "monitor_httpInformation")
-public class MonitorHttpInformation {
+public class HttpInformation {
+
+    private static final int DEFAULT_RESPONSE_CODE = -100;
 
     public enum Status {Requested, Complete, Failed}
 
@@ -45,7 +47,7 @@ public class MonitorHttpInformation {
     private long requestContentLength;
     private boolean requestBodyIsPlainText = true;
 
-    private int responseCode = HttpInformation.DEFAULT_RESPONSE_CODE;
+    private int responseCode = DEFAULT_RESPONSE_CODE;
     private String responseHeaders;
     private String responseBody;
     private String responseMessage;
@@ -55,13 +57,37 @@ public class MonitorHttpInformation {
 
     private String error;
 
-    public Status getStatus() {
-        if (error != null) {
-            return Status.Failed;
-        } else if (responseCode == HttpInformation.DEFAULT_RESPONSE_CODE) {
-            return Status.Requested;
+    public void setRequestHttpHeaders(Headers headers) {
+        if (headers != null) {
+            List<HttpHeader> httpHeaders = new ArrayList<>();
+            for (int i = 0, count = headers.size(); i < count; i++) {
+                httpHeaders.add(new HttpHeader(headers.name(i), headers.value(i)));
+            }
+            setRequestHeaders(JsonConverter.getInstance().toJson(httpHeaders));
         } else {
-            return Status.Complete;
+            setRequestHeaders(null);
+        }
+    }
+
+    public void setResponseHttpHeaders(Headers headers) {
+        if (headers != null) {
+            List<HttpHeader> httpHeaders = new ArrayList<>();
+            for (int i = 0, count = headers.size(); i < count; i++) {
+                httpHeaders.add(new HttpHeader(headers.name(i), headers.value(i)));
+            }
+            setResponseHeaders(JsonConverter.getInstance().toJson(httpHeaders));
+        } else {
+            setResponseHeaders(null);
+        }
+    }
+
+    public HttpInformation.Status getStatus() {
+        if (error != null) {
+            return HttpInformation.Status.Failed;
+        } else if (responseCode == HttpInformation.DEFAULT_RESPONSE_CODE) {
+            return HttpInformation.Status.Requested;
+        } else {
+            return HttpInformation.Status.Complete;
         }
     }
 
@@ -315,7 +341,7 @@ public class MonitorHttpInformation {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MonitorHttpInformation that = (MonitorHttpInformation) o;
+        HttpInformation that = (HttpInformation) o;
         return id == that.id &&
                 duration == that.duration &&
                 requestContentLength == that.requestContentLength &&

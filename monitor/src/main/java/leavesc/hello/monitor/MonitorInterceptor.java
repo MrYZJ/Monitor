@@ -1,7 +1,9 @@
 package leavesc.hello.monitor;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.EOFException;
@@ -12,10 +14,9 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import leavesc.hello.monitor.db.MonitorHttpInformationDatabase;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.holder.ContextHolder;
 import leavesc.hello.monitor.holder.NotificationHolder;
-import leavesc.hello.monitor.model.HttpInformation;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -56,13 +57,18 @@ public class MonitorInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         RequestBody requestBody = request.body();
-
         HttpInformation httpInformation = new HttpInformation();
         httpInformation.setRequestDate(new Date());
-        httpInformation.setRequestHeaders(request.headers());
+        httpInformation.setRequestHttpHeaders(request.headers());
         httpInformation.setMethod(request.method());
-        httpInformation.setUrl(request.url().toString());
-
+        String url = request.url().toString();
+        httpInformation.setUrl(url);
+        if (!TextUtils.isEmpty(url)) {
+            Uri uri = Uri.parse(url);
+            httpInformation.setHost(uri.getHost());
+            httpInformation.setPath(uri.getPath() + ((uri.getQuery() != null) ? "?" + uri.getQuery() : ""));
+            httpInformation.setScheme(uri.getScheme());
+        }
         if (requestBody != null) {
             MediaType contentType = requestBody.contentType();
             if (contentType != null) {
@@ -73,7 +79,6 @@ public class MonitorInterceptor implements Interceptor {
             }
         }
         httpInformation.setRequestBodyIsPlainText(!bodyHasUnsupportedEncoding(request.headers()));
-
         if (requestBody != null && httpInformation.isRequestBodyIsPlainText()) {
             BufferedSource source = getNativeSource(new Buffer(), bodyGzipped(request.headers()));
             Buffer buffer = source.buffer();
@@ -92,18 +97,19 @@ public class MonitorInterceptor implements Interceptor {
             }
         }
         long id = insert(httpInformation);
+        httpInformation.setId(id);
         long startTime = System.nanoTime();
         Response response;
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
             httpInformation.setError(e.toString());
-            update(id, httpInformation);
+            update(httpInformation);
             throw e;
         }
         httpInformation.setResponseDate(new Date());
         httpInformation.setDuration(TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime));
-        httpInformation.setRequestHeaders(response.request().headers());
+        httpInformation.setRequestHttpHeaders(response.request().headers());
         httpInformation.setProtocol(response.protocol().toString());
         httpInformation.setResponseCode(response.code());
         httpInformation.setResponseMessage(response.message());
@@ -115,7 +121,7 @@ public class MonitorInterceptor implements Interceptor {
                 httpInformation.setResponseContentType(contentType.toString());
             }
         }
-        httpInformation.setResponseHeaders(response.headers());
+        httpInformation.setResponseHttpHeaders(response.headers());
         httpInformation.setResponseBodyIsPlainText(!bodyHasUnsupportedEncoding(response.headers()));
         if (HttpHeaders.hasBody(response) && httpInformation.isResponseBodyIsPlainText()) {
             BufferedSource source = getNativeSource(response);
@@ -128,7 +134,7 @@ public class MonitorInterceptor implements Interceptor {
                     try {
                         charset = contentType.charset(CHARSET_UTF8);
                     } catch (UnsupportedCharsetException e) {
-                        update(id, httpInformation);
+                        update(httpInformation);
                         return response;
                     }
                 }
@@ -140,21 +146,18 @@ public class MonitorInterceptor implements Interceptor {
             }
             httpInformation.setResponseContentLength(buffer.size());
         }
-        update(id, httpInformation);
+        update(httpInformation);
         return response;
     }
 
     private long insert(HttpInformation httpInformation) {
-        MonitorHttpInformation pack = httpInformation.constModel();
-        NotificationHolder.getInstance(context).show(pack);
-        return MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().insert(pack);
+        NotificationHolder.getInstance(context).show(httpInformation);
+        return MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().insert(httpInformation);
     }
 
-    private void update(long id, HttpInformation httpInformation) {
-        MonitorHttpInformation pack = httpInformation.constModel();
-        pack.setId(id);
-        NotificationHolder.getInstance(context).show(pack);
-        MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().update(pack);
+    private void update(HttpInformation httpInformation) {
+        NotificationHolder.getInstance(context).show(httpInformation);
+        MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().update(httpInformation);
     }
 
     private boolean isPlaintext(Buffer buffer) {

@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import leavesc.hello.monitor.R;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
 
 /**
@@ -37,7 +37,7 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     private OnClickListener clickListener;
 
-    private AsyncListDiffer<MonitorHttpInformation> asyncListDiffer;
+    private AsyncListDiffer<HttpInformation> asyncListDiffer;
 
     public MonitorAdapter(Context context) {
         asyncListDiffer = new AsyncListDiffer<>(this, new DiffUtilItemCallback());
@@ -49,7 +49,7 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
         color300 = ContextCompat.getColor(context, R.color.monitor_status_300);
     }
 
-    public void setData(List<MonitorHttpInformation> dataList) {
+    public void setData(List<HttpInformation> dataList) {
         asyncListDiffer.submitList(dataList);
     }
 
@@ -65,17 +65,17 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     @Override
     public void onBindViewHolder(@NonNull final MonitorViewHolder holder, int position) {
-        final MonitorHttpInformation httpInformation = asyncListDiffer.getCurrentList().get(position);
-        holder.tv_path.setText(String.format("%s %s", httpInformation.getMethod(), httpInformation.getPath()));
+        final HttpInformation httpInformation = asyncListDiffer.getCurrentList().get(position);
+        holder.tv_path.setText(String.format("%s  %s", httpInformation.getMethod(), httpInformation.getPath()));
         holder.tv_host.setText(httpInformation.getHost());
         holder.tv_requestDate.setText(FormatUtils.getDateFormatShort(httpInformation.getRequestDate()));
         holder.iv_ssl.setVisibility(httpInformation.isSsl() ? View.VISIBLE : View.GONE);
-        if (httpInformation.getStatus() == MonitorHttpInformation.Status.Complete) {
+        if (httpInformation.getStatus() == HttpInformation.Status.Complete) {
             holder.tv_code.setText(String.valueOf(httpInformation.getResponseCode()));
             holder.tv_duration.setText(httpInformation.getDurationFormat());
             holder.tv_size.setText(httpInformation.getTotalSizeString());
         } else {
-            if (httpInformation.getStatus() == MonitorHttpInformation.Status.Failed) {
+            if (httpInformation.getStatus() == HttpInformation.Status.Failed) {
                 holder.tv_code.setText("!!!");
             } else {
                 holder.tv_code.setText(null);
@@ -94,17 +94,17 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
         });
     }
 
-    private void setStatusColor(MonitorViewHolder holder, MonitorHttpInformation transaction) {
+    private void setStatusColor(MonitorViewHolder holder, HttpInformation httpInformation) {
         int color;
-        if (transaction.getStatus() == MonitorHttpInformation.Status.Failed) {
+        if (httpInformation.getStatus() == HttpInformation.Status.Failed) {
             color = colorError;
-        } else if (transaction.getStatus() == MonitorHttpInformation.Status.Requested) {
+        } else if (httpInformation.getStatus() == HttpInformation.Status.Requested) {
             color = colorRequested;
-        } else if (transaction.getResponseCode() >= 500) {
+        } else if (httpInformation.getResponseCode() >= 500) {
             color = color500;
-        } else if (transaction.getResponseCode() >= 400) {
+        } else if (httpInformation.getResponseCode() >= 400) {
             color = color400;
-        } else if (transaction.getResponseCode() >= 300) {
+        } else if (httpInformation.getResponseCode() >= 300) {
             color = color300;
         } else {
             color = colorDefault;
@@ -147,28 +147,28 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     }
 
-    private class DiffUtilItemCallback extends DiffUtil.ItemCallback<MonitorHttpInformation> {
+    private class DiffUtilItemCallback extends DiffUtil.ItemCallback<HttpInformation> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull MonitorHttpInformation oldItem, @NonNull MonitorHttpInformation newItem) {
+        public boolean areItemsTheSame(@NonNull HttpInformation oldItem, @NonNull HttpInformation newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull MonitorHttpInformation oldItem, @NonNull MonitorHttpInformation newItem) {
+        public boolean areContentsTheSame(@NonNull HttpInformation oldItem, @NonNull HttpInformation newItem) {
             return oldItem.equals(newItem);
         }
 
         @Nullable
         @Override
-        public Object getChangePayload(@NonNull MonitorHttpInformation oldItem, @NonNull MonitorHttpInformation newItem) {
+        public Object getChangePayload(@NonNull HttpInformation oldItem, @NonNull HttpInformation newItem) {
             return super.getChangePayload(oldItem, newItem);
         }
 
     }
 
     public interface OnClickListener {
-        void onClick(int position, MonitorHttpInformation model);
+        void onClick(int position, HttpInformation model);
     }
 
 }

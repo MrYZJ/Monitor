@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import leavesc.hello.monitor.R;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.utils.FormatUtils;
 import leavesc.hello.monitor.viewmodel.MonitorViewModel;
 
@@ -68,9 +68,9 @@ public class MonitorOverviewFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         MonitorViewModel monitorViewModel = ViewModelProviders.of(getActivity()).get(MonitorViewModel.class);
-        monitorViewModel.getRecordLiveData().observe(this, new Observer<MonitorHttpInformation>() {
+        monitorViewModel.getRecordLiveData().observe(this, new Observer<HttpInformation>() {
             @Override
-            public void onChanged(@Nullable MonitorHttpInformation monitorHttpInformation) {
+            public void onChanged(@Nullable HttpInformation monitorHttpInformation) {
                 if (monitorHttpInformation != null) {
                     tv_url.setText(monitorHttpInformation.getUrl());
                     tv_method.setText(monitorHttpInformation.getMethod());

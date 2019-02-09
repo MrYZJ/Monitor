@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.utils.Converters;
 
 /**
@@ -16,7 +16,7 @@ import leavesc.hello.monitor.utils.Converters;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-@Database(entities = {MonitorHttpInformation.class}, version = 1, exportSchema = false)
+@Database(entities = {HttpInformation.class}, version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class MonitorHttpInformationDatabase extends RoomDatabase {
 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import leavesc.hello.monitor.R;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.viewmodel.MonitorViewModel;
 
 /**
@@ -52,11 +52,11 @@ public class MonitorDetailsActivity extends AppCompatActivity {
         initViewModel();
         long id = getIntent().getLongExtra(KEY_ID, 0);
         monitorViewModel.queryRecordById(id);
-        monitorViewModel.getRecordLiveData().observe(this, new Observer<MonitorHttpInformation>() {
+        monitorViewModel.getRecordLiveData().observe(this, new Observer<HttpInformation>() {
             @Override
-            public void onChanged(@Nullable MonitorHttpInformation monitorHttpInformation) {
-                if (monitorHttpInformation != null) {
-                    title.setText(String.format("%s %s", monitorHttpInformation.getMethod(), monitorHttpInformation.getPath()));
+            public void onChanged(@Nullable HttpInformation HttpInformation) {
+                if (HttpInformation != null) {
+                    title.setText(String.format("%s %s", HttpInformation.getMethod(), HttpInformation.getPath()));
                 } else {
                     title.setText(null);
                 }

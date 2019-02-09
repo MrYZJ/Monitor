@@ -1,11 +1,8 @@
 package leavesc.hello.monitor.ui;
 
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,7 +15,7 @@ import java.util.List;
 
 import leavesc.hello.monitor.R;
 import leavesc.hello.monitor.adapter.MonitorAdapter;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.viewmodel.MonitorViewModel;
 
 /**
@@ -45,15 +42,15 @@ public class MonitorActivity extends AppCompatActivity {
         final MonitorAdapter adapter = new MonitorAdapter(this);
         adapter.setClickListener(new MonitorAdapter.OnClickListener() {
             @Override
-            public void onClick(int position, MonitorHttpInformation model) {
+            public void onClick(int position, HttpInformation model) {
                 MonitorDetailsActivity.navTo(MonitorActivity.this, model.getId());
             }
         });
         recyclerView.setAdapter(adapter);
-        monitorViewModel.getAllRecordLiveData().observe(this, new Observer<List<MonitorHttpInformation>>() {
+        monitorViewModel.getAllRecordLiveData().observe(this, new Observer<List<HttpInformation>>() {
             @Override
-            public void onChanged(@Nullable List<MonitorHttpInformation> monitorHttpInformationList) {
-                adapter.setData(monitorHttpInformationList);
+            public void onChanged(@Nullable List<HttpInformation> HttpInformationList) {
+                adapter.setData(HttpInformationList);
             }
         });
     }

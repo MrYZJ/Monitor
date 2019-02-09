@@ -12,7 +12,7 @@ import android.util.LongSparseArray;
 
 import leavesc.hello.monitor.Monitor;
 import leavesc.hello.monitor.R;
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import leavesc.hello.monitor.service.ClearMonitorService;
 
 /**
@@ -34,7 +34,7 @@ public class NotificationHolder {
 
     private static final int BUFFER_SIZE = 10;
 
-    private LongSparseArray<MonitorHttpInformation> transactionBuffer = new LongSparseArray<>();
+    private LongSparseArray<HttpInformation> transactionBuffer = new LongSparseArray<>();
 
     private Context context;
 
@@ -63,7 +63,7 @@ public class NotificationHolder {
         return instance;
     }
 
-    public synchronized void show(MonitorHttpInformation transaction) {
+    public synchronized void show(HttpInformation transaction) {
         addToBuffer(transaction);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentIntent(getContentIntent(context))
@@ -90,7 +90,7 @@ public class NotificationHolder {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    private synchronized void addToBuffer(MonitorHttpInformation httpInformation) {
+    private synchronized void addToBuffer(HttpInformation httpInformation) {
         transactionCount++;
         transactionBuffer.put(httpInformation.getId(), httpInformation);
         if (transactionBuffer.size() > BUFFER_SIZE) {

@@ -1,4 +1,4 @@
-package leavesc.hello.monitor.model;
+package leavesc.hello.monitor.db.entity;
 
 /**
  * 作者：leavesC

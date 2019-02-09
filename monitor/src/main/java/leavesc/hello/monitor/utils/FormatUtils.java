@@ -7,7 +7,6 @@ import org.xml.sax.InputSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,9 +18,7 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
-import leavesc.hello.monitor.model.HttpHeader;
-import leavesc.hello.monitor.model.HttpInformation;
-import okhttp3.Headers;
+import leavesc.hello.monitor.db.entity.HttpHeader;
 
 /**
  * 作者：leavesC
@@ -145,31 +142,31 @@ public class FormatUtils {
 //        return text;
 //    }
 
-    public static String getShareCurlCommand(HttpInformation transaction) {
-        boolean compressed = false;
-        String curlCmd = "curl";
-        curlCmd += " -X " + transaction.getMethod();
-        Headers headers = transaction.getRequestHeaders();
-        List<HttpHeader> headerList = new ArrayList<>();
-        for (int i = 0, count = headers.size(); i < count; i++) {
-            headerList.add(new HttpHeader(headers.name(i), headers.value(i)));
-        }
-        for (int i = 0, count = headers.size(); i < count; i++) {
-            String name = headerList.get(i).getName();
-            String value = headerList.get(i).getValue();
-            if ("Accept-Encoding".equalsIgnoreCase(name) && "gzip".equalsIgnoreCase(value)) {
-                compressed = true;
-            }
-            curlCmd += " -H " + "\"" + name + ": " + value + "\"";
-        }
-        String requestBody = transaction.getRequestBody();
-        if (requestBody != null && requestBody.length() > 0) {
-            // try to keep to a single line and use a subshell to preserve any line breaks
-            curlCmd += " --data $'" + requestBody.replace("\n", "\\n") + "'";
-        }
-        curlCmd += ((compressed) ? " --compressed " : " ") + transaction.getUrl();
-        return curlCmd;
-    }
+//    public static String getShareCurlCommand(HttpInformation transaction) {
+//        boolean compressed = false;
+//        String curlCmd = "curl";
+//        curlCmd += " -X " + transaction.getMethod();
+//        Headers headers = transaction.getRequestHeaders();
+//        List<HttpHeader> headerList = new ArrayList<>();
+//        for (int i = 0, count = headers.size(); i < count; i++) {
+//            headerList.add(new HttpHeader(headers.name(i), headers.value(i)));
+//        }
+//        for (int i = 0, count = headers.size(); i < count; i++) {
+//            String name = headerList.get(i).getName();
+//            String value = headerList.get(i).getValue();
+//            if ("Accept-Encoding".equalsIgnoreCase(name) && "gzip".equalsIgnoreCase(value)) {
+//                compressed = true;
+//            }
+//            curlCmd += " -H " + "\"" + name + ": " + value + "\"";
+//        }
+//        String requestBody = transaction.getRequestBody();
+//        if (requestBody != null && requestBody.length() > 0) {
+//            // try to keep to a single line and use a subshell to preserve any line breaks
+//            curlCmd += " --data $'" + requestBody.replace("\n", "\\n") + "'";
+//        }
+//        curlCmd += ((compressed) ? " --compressed " : " ") + transaction.getUrl();
+//        return curlCmd;
+//    }
 
     private static String v(String string) {
         return (string != null) ? string : "";

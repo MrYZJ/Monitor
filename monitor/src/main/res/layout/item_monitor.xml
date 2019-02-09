@@ -102,7 +102,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#c9d0d7"
+        android:background="#d7dbdf"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/constraintLayout" />

@@ -5,12 +5,12 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="itemTitleColor">#eb010713</color>
-    <color name="itemContentColor">#d630343e</color>
+    <color name="itemContentColor">#eb2f3641</color>
     <color name="monitor_status_requested">#7f8482</color>
     <color name="monitor_status_error">#f23f33</color>
     <color name="monitor_status_500">#efc70d0d</color>
     <color name="monitor_status_400">#f59b16</color>
-    <color name="monitor_status_300">#206bdf</color>
+    <color name="monitor_status_300">#2471f5</color>
 
     <color name="chuck_colorPrimary">#00BCD4</color>
 </resources>

@@ -8,7 +8,7 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 
 /**
  * 作者：leavesC
@@ -21,22 +21,22 @@ import leavesc.hello.monitor.db.entity.MonitorHttpInformation;
 public interface MonitorHttpInformationDao {
 
     @Insert
-    long insert(MonitorHttpInformation model);
+    long insert(HttpInformation model);
 
     @Update
-    void update(MonitorHttpInformation model);
+    void update(HttpInformation model);
 
     @Query("SELECT * FROM monitor_httpInformation WHERE id =:id")
-    LiveData<MonitorHttpInformation> queryRecordObservable(long id);
+    LiveData<HttpInformation> queryRecordObservable(long id);
 
     @Query("SELECT * FROM monitor_httpInformation")
-    List<MonitorHttpInformation> queryAllRecord();
+    List<HttpInformation> queryAllRecord();
 
     @Query("SELECT * FROM monitor_httpInformation order by id desc limit :limit")
-    LiveData<List<MonitorHttpInformation>> queryAllRecordObservable(int limit);
+    LiveData<List<HttpInformation>> queryAllRecordObservable(int limit);
 
     @Query("SELECT * FROM monitor_httpInformation order by id desc")
-    LiveData<List<MonitorHttpInformation>> queryAllRecordObservable();
+    LiveData<List<HttpInformation>> queryAllRecordObservable();
 
     @Query("DELETE FROM monitor_httpInformation")
     void deleteAll();
