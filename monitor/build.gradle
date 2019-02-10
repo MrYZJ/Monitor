@@ -39,7 +39,7 @@ publish {
     userOrg = 'leavesc'
     groupId = 'leavesc.hello'
     artifactId = 'Monitor'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     website = 'https://github.com/leavesC/Monitor'
     desc = 'An in-app HTTP inspector for Android OkHttp clients'
 }
