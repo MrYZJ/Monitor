@@ -338,6 +338,35 @@ public class HttpInformation {
     }
 
     @Override
+    public String toString() {
+        return "HttpInformation{" +
+                "id=" + id +
+                ", requestDate=" + requestDate +
+                ", responseDate=" + responseDate +
+                ", duration=" + duration +
+                ", method='" + method + '\'' +
+                ", url='" + url + '\'' +
+                ", host='" + host + '\'' +
+                ", path='" + path + '\'' +
+                ", scheme='" + scheme + '\'' +
+                ", protocol='" + protocol + '\'' +
+                ", requestHeaders='" + requestHeaders + '\'' +
+                ", requestBody='" + requestBody + '\'' +
+                ", requestContentType='" + requestContentType + '\'' +
+                ", requestContentLength=" + requestContentLength +
+                ", requestBodyIsPlainText=" + requestBodyIsPlainText +
+                ", responseCode=" + responseCode +
+                ", responseHeaders='" + responseHeaders + '\'' +
+                ", responseBody='" + responseBody + '\'' +
+                ", responseMessage='" + responseMessage + '\'' +
+                ", responseContentType='" + responseContentType + '\'' +
+                ", responseContentLength=" + responseContentLength +
+                ", responseBodyIsPlainText=" + responseBodyIsPlainText +
+                ", error='" + error + '\'' +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

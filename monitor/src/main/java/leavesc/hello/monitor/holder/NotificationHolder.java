@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.LongSparseArray;
 
 import leavesc.hello.monitor.Monitor;
@@ -43,6 +42,8 @@ public class NotificationHolder {
 
     private int transactionCount;
 
+    private volatile boolean showNotification = true;
+
     private static volatile NotificationHolder instance;
 
     private NotificationHolder(Context context) {
@@ -65,30 +66,32 @@ public class NotificationHolder {
     }
 
     public synchronized void show(HttpInformation transaction) {
-        addToBuffer(transaction);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentIntent(getContentIntent(context))
-                .setLocalOnly(true)
-                .setSmallIcon(R.drawable.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
-                .setContentTitle(NOTIFICATION_TITLE);
-        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        int size = transactionBuffer.size();
-        if (size > 0) {
-            builder.setContentText(transactionBuffer.valueAt(size - 1).getNotificationText());
-            for (int i = size - 1; i >= 0; i--) {
-                inboxStyle.addLine(transactionBuffer.valueAt(i).getNotificationText());
+        if (showNotification) {
+            addToBuffer(transaction);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+                    .setContentIntent(getContentIntent(context))
+                    .setLocalOnly(true)
+                    .setSmallIcon(R.drawable.ic_launcher)
+                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+                    .setContentTitle(NOTIFICATION_TITLE);
+            NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+            int size = transactionBuffer.size();
+            if (size > 0) {
+                builder.setContentText(transactionBuffer.valueAt(size - 1).getNotificationText());
+                for (int i = size - 1; i >= 0; i--) {
+                    inboxStyle.addLine(transactionBuffer.valueAt(i).getNotificationText());
+                }
             }
+            builder.setAutoCancel(true);
+            builder.setStyle(inboxStyle);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                builder.setSubText(String.valueOf(transactionCount));
+            } else {
+                builder.setNumber(transactionCount);
+            }
+            builder.addAction(getClearAction());
+            notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
-        builder.setAutoCancel(true);
-        builder.setStyle(inboxStyle);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            builder.setSubText(String.valueOf(transactionCount));
-        } else {
-            builder.setNumber(transactionCount);
-        }
-        builder.addAction(getClearAction());
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private synchronized void addToBuffer(HttpInformation httpInformation) {
@@ -97,6 +100,10 @@ public class NotificationHolder {
         if (transactionBuffer.size() > BUFFER_SIZE) {
             transactionBuffer.removeAt(0);
         }
+    }
+
+    public synchronized void showNotification(boolean showNotification) {
+        this.showNotification = showNotification;
     }
 
     public synchronized void clearBuffer() {

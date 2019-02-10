@@ -151,13 +151,17 @@ public class MonitorInterceptor implements Interceptor {
     }
 
     private long insert(HttpInformation httpInformation) {
-        NotificationHolder.getInstance(context).show(httpInformation);
+        showNotification(httpInformation);
         return MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().insert(httpInformation);
     }
 
     private void update(HttpInformation httpInformation) {
-        NotificationHolder.getInstance(context).show(httpInformation);
+        showNotification(httpInformation);
         MonitorHttpInformationDatabase.getInstance(context).getHttpInformationDao().update(httpInformation);
+    }
+
+    private void showNotification(HttpInformation httpInformation) {
+        NotificationHolder.getInstance(context).show(httpInformation);
     }
 
     private boolean isPlaintext(Buffer buffer) {

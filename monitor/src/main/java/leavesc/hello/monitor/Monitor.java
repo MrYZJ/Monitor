@@ -1,8 +1,15 @@
 package leavesc.hello.monitor;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.List;
+
+import leavesc.hello.monitor.db.MonitorHttpInformationDatabase;
+import leavesc.hello.monitor.db.entity.HttpInformation;
+import leavesc.hello.monitor.holder.ContextHolder;
+import leavesc.hello.monitor.holder.NotificationHolder;
 import leavesc.hello.monitor.ui.MonitorActivity;
 
 /**
@@ -18,6 +25,27 @@ public class Monitor {
         Intent intent = new Intent(context, MonitorActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return intent;
+    }
+
+    public static void clearNotification() {
+        NotificationHolder.getInstance(ContextHolder.getContext()).clearBuffer();
+        NotificationHolder.getInstance(ContextHolder.getContext()).dismiss();
+    }
+
+    public static void showNotification(boolean showNotification) {
+        NotificationHolder.getInstance(ContextHolder.getContext()).showNotification(showNotification);
+    }
+
+    public static void clearCache() {
+        MonitorHttpInformationDatabase.getInstance(ContextHolder.getContext()).getHttpInformationDao().deleteAll();
+    }
+
+    public static LiveData<List<HttpInformation>> queryAllRecord(int limit) {
+        return MonitorHttpInformationDatabase.getInstance(ContextHolder.getContext()).getHttpInformationDao().queryAllRecordObservable(limit);
+    }
+
+    public static LiveData<List<HttpInformation>> queryAllRecord() {
+        return MonitorHttpInformationDatabase.getInstance(ContextHolder.getContext()).getHttpInformationDao().queryAllRecordObservable();
     }
 
 }

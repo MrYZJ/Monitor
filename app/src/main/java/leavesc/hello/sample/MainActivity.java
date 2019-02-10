@@ -1,12 +1,18 @@
 package leavesc.hello.sample;
 
+import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.List;
 
 import leavesc.hello.monitor.Monitor;
 import leavesc.hello.monitor.MonitorInterceptor;
+import leavesc.hello.monitor.db.entity.HttpInformation;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -26,32 +32,80 @@ public class MainActivity extends AppCompatActivity {
 
     private OkHttpClient okHttpClient;
 
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btnDoHttp: {
+                    doHttpActivity();
+                    break;
+                }
+                case R.id.btnDoHttp2: {
+                    doHttpActivity2();
+                    break;
+                }
+                case R.id.btnLaunchMonitor: {
+                    startActivity(Monitor.getLaunchIntent(MainActivity.this));
+                    break;
+                }
+                case R.id.btnOpenNotification: {
+                    Monitor.showNotification(true);
+                    break;
+                }
+                case R.id.btnCloseNotification: {
+                    Monitor.showNotification(false);
+                    Monitor.clearNotification();
+                    break;
+                }
+                case R.id.btnClearNotification: {
+                    Monitor.clearNotification();
+                }
+                case R.id.btnClearCache: {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Monitor.clearCache();
+                        }
+                    }).start();
+                }
+            }
+        }
+    };
+
+    private TextView tv_log;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initClient();
-        findViewById(R.id.btnDoHttp).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btnDoHttp).setOnClickListener(clickListener);
+        findViewById(R.id.btnDoHttp2).setOnClickListener(clickListener);
+        findViewById(R.id.btnLaunchMonitor).setOnClickListener(clickListener);
+        findViewById(R.id.btnOpenNotification).setOnClickListener(clickListener);
+        findViewById(R.id.btnCloseNotification).setOnClickListener(clickListener);
+        findViewById(R.id.btnClearNotification).setOnClickListener(clickListener);
+        findViewById(R.id.btnClearCache).setOnClickListener(clickListener);
+        tv_log = findViewById(R.id.tv_log);
+        //参数用于监听最新指定条数的数据变化，如果不传递参数则会监听所有的数据变化
+        Monitor.queryAllRecord(10).observe(this, new Observer<List<HttpInformation>>() {
             @Override
-            public void onClick(View view) {
-                doHttpActivity();
-            }
-        });
-        findViewById(R.id.btnDoHttp2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                doHttpActivity2();
-            }
-        });
-        findViewById(R.id.btnLaunchMonitor).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Monitor.getLaunchIntent(MainActivity.this));
+            public void onChanged(@Nullable List<HttpInformation> httpInformationList) {
+                tv_log.setText(null);
+                if (httpInformationList != null) {
+                    for (HttpInformation httpInformation : httpInformationList) {
+                        tv_log.append(httpInformation.toString());
+                        tv_log.append("\n\n");
+                        tv_log.append("*************************************");
+                        tv_log.append("\n\n");
+                    }
+                }
             }
         });
     }
 
     private void initClient() {
+        //MonitorInterceptor 必须先初始化后才可以调用 Monitor 中的方法
         okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(new MonitorInterceptor(this))
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))

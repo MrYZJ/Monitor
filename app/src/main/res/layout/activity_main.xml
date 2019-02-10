@@ -27,4 +27,44 @@
         android:text="启动Monitor"
         android:textAllCaps="false" />
 
+    <Button
+        android:id="@+id/btnOpenNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="开启弹窗"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnCloseNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="关闭弹窗（当有新数据时也不会显示）"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnClearNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清除弹窗（当有新数据时会再次显示）"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/btnClearCache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清除缓存"
+        android:textAllCaps="false" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/tv_log"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </ScrollView>
+
 </LinearLayout>
