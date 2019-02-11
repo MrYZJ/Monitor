@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/leavesc/MonitorRepo/Monitor/images/download.svg?version=1.0.3) ](https://bintray.com/leavesc/MonitorRepo/Monitor/1.0.3/link)
+
 ### 一、概述
 
 **Monitor** 是我刚开发完成的一个开源项目，适用于使用了 OkHttp 作为网络请求框架的项目，可以拦截并缓存应用内的所有 Http 请求和响应信息，且可以以 Notification 和 Activity 的形式来展示具体内容
@@ -15,7 +17,7 @@ Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](https://www.pgye
 在 **build.gradle** 文件中添加依赖：
 
 ```
-    implementation 'leavesc.hello:Monitor:1.0.1'
+    implementation 'leavesc.hello:Monitor:1.0.3'
 ```
 
 添加 **MonitorInterceptor** 作为项目中 **OkHttpClient** 的拦截器
