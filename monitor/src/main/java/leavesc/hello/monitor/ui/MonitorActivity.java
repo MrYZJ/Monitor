@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -62,6 +63,8 @@ public class MonitorActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        TextView tvTitle = findViewById(R.id.tvToolbarTitle);
+        tvTitle.setText("Monitor");
     }
 
     @Override

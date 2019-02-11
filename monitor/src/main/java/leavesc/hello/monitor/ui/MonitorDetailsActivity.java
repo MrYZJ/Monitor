@@ -44,7 +44,7 @@ public class MonitorDetailsActivity extends AppCompatActivity {
         context.startActivity(intent);
     }
 
-    private TextView title;
+    private TextView tvTitle;
 
     private HttpInformation httpInformation;
 
@@ -61,9 +61,9 @@ public class MonitorDetailsActivity extends AppCompatActivity {
             public void onChanged(@Nullable HttpInformation httpInformation) {
                 MonitorDetailsActivity.this.httpInformation = httpInformation;
                 if (httpInformation != null) {
-                    title.setText(String.format("%s  %s", httpInformation.getMethod(), httpInformation.getPath()));
+                    tvTitle.setText(String.format("%s  %s", httpInformation.getMethod(), httpInformation.getPath()));
                 } else {
-                    title.setText(null);
+                    tvTitle.setText(null);
                 }
             }
         });
@@ -72,8 +72,8 @@ public class MonitorDetailsActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        title = findViewById(R.id.toolbar_title);
-        ViewPager viewPager = findViewById(R.id.viewpager);
+        tvTitle = findViewById(R.id.tvToolbarTitle);
+        ViewPager viewPager = findViewById(R.id.viewPager);
         PagerAdapter fragmentPagerAdapter = new PagerAdapter(getSupportFragmentManager());
         fragmentPagerAdapter.addFragment(MonitorOverviewFragment.newInstance(), "overview");
         fragmentPagerAdapter.addFragment(MonitorPayloadFragment.newInstanceRequest(), "request");
