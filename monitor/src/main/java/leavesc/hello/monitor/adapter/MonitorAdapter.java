@@ -66,6 +66,7 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
     @Override
     public void onBindViewHolder(@NonNull final MonitorViewHolder holder, int position) {
         final HttpInformation httpInformation = asyncListDiffer.getCurrentList().get(position);
+        holder.tv_id.setText(String.valueOf(httpInformation.getId()));
         holder.tv_path.setText(String.format("%s  %s", httpInformation.getMethod(), httpInformation.getPath()));
         holder.tv_host.setText(httpInformation.getHost());
         holder.tv_requestDate.setText(FormatUtils.getDateFormatShort(httpInformation.getRequestDate()));
@@ -125,6 +126,7 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
     static class MonitorViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
+        public final TextView tv_id;
         public final TextView tv_code;
         public final TextView tv_path;
         public final TextView tv_host;
@@ -136,6 +138,7 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
         MonitorViewHolder(@NonNull ViewGroup viewGroup) {
             super(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_monitor, viewGroup, false));
             this.view = itemView;
+            tv_id = view.findViewById(R.id.tv_id);
             tv_code = view.findViewById(R.id.tv_code);
             tv_path = view.findViewById(R.id.tv_path);
             tv_host = view.findViewById(R.id.tv_host);

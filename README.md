@@ -9,7 +9,7 @@
 在 **build.gradle** 文件中添加依赖：
 
 ```
-    implementation 'leavesc.hello:Monitor:1.0.3'
+    implementation 'leavesc.hello:Monitor:1.0.4'
 ```
 
 添加 **MonitorInterceptor** 作为项目中 **OkHttpClient** 的拦截器
@@ -21,17 +21,13 @@
 
 **然后？没了，OK了**
 
-
-
-
+---
 
 > 以下内容发布于 2019-03-02
 
 修改了 HttpInformation 的 equals 方法实现方式，修复低版本的兼容性问题，并调整了下 UI，发布 v1.0.4 版本
 
-
-
-
+---
 
 > 以下内容发布于 2019-02-10
 

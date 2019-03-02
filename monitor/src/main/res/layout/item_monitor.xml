@@ -32,10 +32,22 @@
         android:paddingTop="@dimen/commonPadding"
         android:paddingBottom="@dimen/commonPadding"
         android:textAppearance="@style/monitor.title"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_id"
         app:layout_constraintStart_toEndOf="@id/tv_code"
         app:layout_constraintTop_toTopOf="@id/tv_code"
         tools:text="Get /github.com/leavesC" />
+
+    <TextView
+        android:id="@+id/tv_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:paddingTop="@dimen/commonPadding"
+        android:paddingBottom="@dimen/commonPadding"
+        android:textAppearance="@style/monitor.title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_path"
+        tools:text="1000" />
 
     <TextView
         android:id="@+id/tv_host"
