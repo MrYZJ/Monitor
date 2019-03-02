@@ -2,6 +2,7 @@ package leavesc.hello.monitor.db.entity;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.reflect.TypeToken;
 
@@ -337,6 +338,7 @@ public class HttpInformation {
         this.error = error;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "HttpInformation{" +
@@ -371,34 +373,67 @@ public class HttpInformation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HttpInformation that = (HttpInformation) o;
-        return id == that.id &&
-                duration == that.duration &&
-                requestContentLength == that.requestContentLength &&
-                requestBodyIsPlainText == that.requestBodyIsPlainText &&
-                responseCode == that.responseCode &&
-                responseContentLength == that.responseContentLength &&
-                responseBodyIsPlainText == that.responseBodyIsPlainText &&
-                Objects.equals(requestDate, that.requestDate) &&
-                Objects.equals(responseDate, that.responseDate) &&
-                Objects.equals(method, that.method) &&
-                Objects.equals(url, that.url) &&
-                Objects.equals(host, that.host) &&
-                Objects.equals(path, that.path) &&
-                Objects.equals(scheme, that.scheme) &&
-                Objects.equals(protocol, that.protocol) &&
-                Objects.equals(requestHeaders, that.requestHeaders) &&
-                Objects.equals(requestBody, that.requestBody) &&
-                Objects.equals(requestContentType, that.requestContentType) &&
-                Objects.equals(responseHeaders, that.responseHeaders) &&
-                Objects.equals(responseBody, that.responseBody) &&
-                Objects.equals(responseMessage, that.responseMessage) &&
-                Objects.equals(responseContentType, that.responseContentType) &&
-                Objects.equals(error, that.error);
+        if (id != that.id) return false;
+        if (duration != that.duration) return false;
+        if (requestContentLength != that.requestContentLength) return false;
+        if (requestBodyIsPlainText != that.requestBodyIsPlainText) return false;
+        if (responseCode != that.responseCode) return false;
+        if (responseContentLength != that.responseContentLength) return false;
+        if (responseBodyIsPlainText != that.responseBodyIsPlainText) return false;
+        if (requestDate != null ? !requestDate.equals(that.requestDate) : that.requestDate != null)
+            return false;
+        if (responseDate != null ? !responseDate.equals(that.responseDate) : that.responseDate != null)
+            return false;
+        if (method != null ? !method.equals(that.method) : that.method != null) return false;
+        if (url != null ? !url.equals(that.url) : that.url != null) return false;
+        if (host != null ? !host.equals(that.host) : that.host != null) return false;
+        if (path != null ? !path.equals(that.path) : that.path != null) return false;
+        if (scheme != null ? !scheme.equals(that.scheme) : that.scheme != null) return false;
+        if (protocol != null ? !protocol.equals(that.protocol) : that.protocol != null)
+            return false;
+        if (requestHeaders != null ? !requestHeaders.equals(that.requestHeaders) : that.requestHeaders != null)
+            return false;
+        if (requestBody != null ? !requestBody.equals(that.requestBody) : that.requestBody != null)
+            return false;
+        if (requestContentType != null ? !requestContentType.equals(that.requestContentType) : that.requestContentType != null)
+            return false;
+        if (responseHeaders != null ? !responseHeaders.equals(that.responseHeaders) : that.responseHeaders != null)
+            return false;
+        if (responseBody != null ? !responseBody.equals(that.responseBody) : that.responseBody != null)
+            return false;
+        if (responseMessage != null ? !responseMessage.equals(that.responseMessage) : that.responseMessage != null)
+            return false;
+        if (responseContentType != null ? !responseContentType.equals(that.responseContentType) : that.responseContentType != null)
+            return false;
+        return error != null ? error.equals(that.error) : that.error == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, requestDate, responseDate, duration, method, url, host, path, scheme, protocol, requestHeaders, requestBody, requestContentType, requestContentLength, requestBodyIsPlainText, responseCode, responseHeaders, responseBody, responseMessage, responseContentType, responseContentLength, responseBodyIsPlainText, error);
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + (requestDate != null ? requestDate.hashCode() : 0);
+        result = 31 * result + (responseDate != null ? responseDate.hashCode() : 0);
+        result = 31 * result + (int) (duration ^ (duration >>> 32));
+        result = 31 * result + (method != null ? method.hashCode() : 0);
+        result = 31 * result + (url != null ? url.hashCode() : 0);
+        result = 31 * result + (host != null ? host.hashCode() : 0);
+        result = 31 * result + (path != null ? path.hashCode() : 0);
+        result = 31 * result + (scheme != null ? scheme.hashCode() : 0);
+        result = 31 * result + (protocol != null ? protocol.hashCode() : 0);
+        result = 31 * result + (requestHeaders != null ? requestHeaders.hashCode() : 0);
+        result = 31 * result + (requestBody != null ? requestBody.hashCode() : 0);
+        result = 31 * result + (requestContentType != null ? requestContentType.hashCode() : 0);
+        result = 31 * result + (int) (requestContentLength ^ (requestContentLength >>> 32));
+        result = 31 * result + (requestBodyIsPlainText ? 1 : 0);
+        result = 31 * result + responseCode;
+        result = 31 * result + (responseHeaders != null ? responseHeaders.hashCode() : 0);
+        result = 31 * result + (responseBody != null ? responseBody.hashCode() : 0);
+        result = 31 * result + (responseMessage != null ? responseMessage.hashCode() : 0);
+        result = 31 * result + (responseContentType != null ? responseContentType.hashCode() : 0);
+        result = 31 * result + (int) (responseContentLength ^ (responseContentLength >>> 32));
+        result = 31 * result + (responseBodyIsPlainText ? 1 : 0);
+        result = 31 * result + (error != null ? error.hashCode() : 0);
+        return result;
     }
 
 }

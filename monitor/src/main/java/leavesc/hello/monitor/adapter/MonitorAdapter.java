@@ -28,12 +28,12 @@ import leavesc.hello.monitor.utils.FormatUtils;
  */
 public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorViewHolder> {
 
-    private final int colorDefault;
+    private final int colorSuccess;
     private final int colorRequested;
     private final int colorError;
-    private final int color500;
-    private final int color400;
     private final int color300;
+    private final int color400;
+    private final int color500;
 
     private OnClickListener clickListener;
 
@@ -41,12 +41,12 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
 
     public MonitorAdapter(Context context) {
         asyncListDiffer = new AsyncListDiffer<>(this, new DiffUtilItemCallback());
-        colorDefault = ContextCompat.getColor(context, R.color.itemTitleColor);
+        colorSuccess = ContextCompat.getColor(context, R.color.monitor_status_success);
         colorRequested = ContextCompat.getColor(context, R.color.monitor_status_requested);
         colorError = ContextCompat.getColor(context, R.color.monitor_status_error);
-        color500 = ContextCompat.getColor(context, R.color.monitor_status_500);
-        color400 = ContextCompat.getColor(context, R.color.monitor_status_400);
         color300 = ContextCompat.getColor(context, R.color.monitor_status_300);
+        color400 = ContextCompat.getColor(context, R.color.monitor_status_400);
+        color500 = ContextCompat.getColor(context, R.color.monitor_status_500);
     }
 
     public void setData(List<HttpInformation> dataList) {
@@ -107,7 +107,7 @@ public class MonitorAdapter extends RecyclerView.Adapter<MonitorAdapter.MonitorV
         } else if (httpInformation.getResponseCode() >= 300) {
             color = color300;
         } else {
-            color = colorDefault;
+            color = colorSuccess;
         }
         holder.tv_code.setTextColor(color);
         holder.tv_path.setTextColor(color);

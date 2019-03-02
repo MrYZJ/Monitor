@@ -4,13 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground">
+    android:layout_marginBottom="6dp"
+    android:background="@android:color/white"
+    android:paddingTop="@dimen/commonPadding"
+    android:paddingBottom="@dimen/commonPadding">
 
     <TextView
         android:id="@+id/tv_code"
-        android:layout_width="40dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/commonPadding"
+        android:minWidth="50dp"
+        android:paddingStart="@dimen/commonBigPadding"
+        android:paddingTop="@dimen/commonPadding"
+        android:paddingEnd="@dimen/commonPadding"
+        android:paddingBottom="@dimen/commonPadding"
         android:textAppearance="@style/monitor.title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,6 +51,7 @@
         android:id="@+id/iv_ssl"
         android:layout_width="16dp"
         android:layout_height="16dp"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/icon_ssl"
         app:layout_constraintBottom_toBottomOf="@+id/tv_host"
         app:layout_constraintStart_toEndOf="@id/tv_host"
@@ -98,13 +106,5 @@
             tools:text="16.45 KB" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#d7dbdf"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayout" />
 
 </android.support.constraint.ConstraintLayout>

@@ -22,7 +22,7 @@ import retrofit2.http.Query;
  * GitHub：https://github.com/leavesC
  * Blog：https://www.jianshu.com/u/9df45b87cfdf
  */
-public class SampleApiService {
+class SampleApiService {
 
     static HttpApi_1 getInstance_1(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()

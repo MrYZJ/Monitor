@@ -4,13 +4,12 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="itemTitleColor">#00040d</color>
-    <color name="itemContentColor">#eb1a2028</color>
-    <color name="monitor_status_requested">#7f8482</color>
-    <color name="monitor_status_error">#f23f33</color>
-    <color name="monitor_status_500">#efc70d0d</color>
-    <color name="monitor_status_400">#f59b16</color>
-    <color name="monitor_status_300">#2471f5</color>
+    <color name="monitor_status_success">#2E3032</color>
+    <color name="monitor_status_requested">#7c838b</color>
+    <color name="monitor_status_error">#f23c61</color>
+    <color name="monitor_status_300">#34A6FF</color>
+    <color name="monitor_status_400">#7a48f5</color>
+    <color name="monitor_status_500">#06CA87</color>
+    <color name="rootBg">#F0F0F0</color>
 
-    <color name="monitor_colorPrimary">#00BCD4</color>
 </resources>

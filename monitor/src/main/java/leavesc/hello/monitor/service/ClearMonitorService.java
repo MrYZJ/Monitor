@@ -16,7 +16,7 @@ import leavesc.hello.monitor.holder.NotificationHolder;
 public class ClearMonitorService extends IntentService {
 
     public ClearMonitorService() {
-        super("ClearMonitorService");
+        super(ClearMonitorService.class.getName());
     }
 
     @Override
