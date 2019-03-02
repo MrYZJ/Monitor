@@ -1,4 +1,39 @@
-[ ![Download](https://api.bintray.com/packages/leavesc/MonitorRepo/Monitor/images/download.svg?version=1.0.3) ](https://bintray.com/leavesc/MonitorRepo/Monitor/1.0.3/link)
+# Monitor
+
+[ ![Download](https://api.bintray.com/packages/leavesc/MonitorRepo/Monitor/images/download.svg?version=1.0.4) ](https://bintray.com/leavesc/MonitorRepo/Monitor/1.0.4/link)
+
+
+使用方法：
+
+
+在 **build.gradle** 文件中添加依赖：
+
+```
+    implementation 'leavesc.hello:Monitor:1.0.3'
+```
+
+添加 **MonitorInterceptor** 作为项目中 **OkHttpClient** 的拦截器
+
+```
+    OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .addInterceptor(new MonitorInterceptor(this)).build();
+```
+
+**然后？没了，OK了**
+
+
+
+
+
+> 以下内容发布于 2019-03-02
+
+修改了 HttpInformation 的 equals 方法实现方式，修复低版本的兼容性问题，并调整了下 UI，发布 v1.0.4 版本
+
+
+
+
+
+> 以下内容发布于 2019-02-10
 
 ### 一、概述
 
