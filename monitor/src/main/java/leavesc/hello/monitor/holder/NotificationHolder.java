@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.LongSparseArray;
@@ -72,7 +71,7 @@ public class NotificationHolder {
                     .setContentIntent(getContentIntent(context))
                     .setLocalOnly(true)
                     .setSmallIcon(R.drawable.ic_launcher)
-                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
+//                    .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher))
                     .setContentTitle(NOTIFICATION_TITLE);
             NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
             int size = transactionBuffer.size();
@@ -82,14 +81,14 @@ public class NotificationHolder {
                     inboxStyle.addLine(transactionBuffer.valueAt(i).getNotificationText());
                 }
             }
-            builder.setAutoCancel(true);
+            builder.setAutoCancel(false);
             builder.setStyle(inboxStyle);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 builder.setSubText(String.valueOf(transactionCount));
             } else {
                 builder.setNumber(transactionCount);
             }
-            builder.addAction(getClearAction());
+//            builder.addAction(getClearAction());
             notificationManager.notify(NOTIFICATION_ID, builder.build());
         }
     }

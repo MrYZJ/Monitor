@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -72,6 +73,10 @@ public class MonitorDetailsActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
         tvTitle = findViewById(R.id.tvToolbarTitle);
         ViewPager viewPager = findViewById(R.id.viewPager);
         PagerAdapter fragmentPagerAdapter = new PagerAdapter(getSupportFragmentManager());
@@ -131,6 +136,8 @@ public class MonitorDetailsActivity extends AppCompatActivity {
             if (httpInformation != null) {
                 share(FormatUtils.getShareText(httpInformation));
             }
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return true;
     }

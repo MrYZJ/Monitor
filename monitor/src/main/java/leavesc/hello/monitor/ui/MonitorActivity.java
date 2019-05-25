@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,10 @@ public class MonitorActivity extends AppCompatActivity {
     private void initView() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
         TextView tvTitle = findViewById(R.id.tvToolbarTitle);
         tvTitle.setText("Monitor");
     }
@@ -78,6 +83,8 @@ public class MonitorActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.clear) {
             monitorViewModel.clearAllCache();
             monitorViewModel.clearNotification();
+        } else if (item.getItemId() == android.R.id.home) {
+            finish();
         }
         return true;
     }
