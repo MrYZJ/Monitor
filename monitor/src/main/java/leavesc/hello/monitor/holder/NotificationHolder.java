@@ -83,6 +83,7 @@ public class NotificationHolder {
             }
             builder.setAutoCancel(false);
             builder.setStyle(inboxStyle);
+            builder.setSound(null);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 builder.setSubText(String.valueOf(transactionCount));
             } else {
