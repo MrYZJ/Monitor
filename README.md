@@ -2,9 +2,13 @@
 
 [ ![Download](https://api.bintray.com/packages/leavesc/MonitorRepo/Monitor/images/download.svg?version=1.0.5) ](https://bintray.com/leavesc/MonitorRepo/Monitor/1.0.5/link)
 
+---
 
-使用方法：
+- 2019-06-02 细节优化，发布 v1.0.5 版本
 
+- 2019-03-02 修改了 HttpInformation 的 equals 方法实现方式，修复低版本的兼容性问题，并调整了下 UI，发布 v1.0.4 版本
+
+---
 
 在 **build.gradle** 文件中添加依赖：
 
@@ -25,7 +29,7 @@
 
 ### 一、概述
 
-**Monitor** 是我发布的一个开源项目，适用于使用了 OkHttp 作为网络请求框架的项目，可以拦截并缓存应用内的所有 Http 请求和响应信息，且可以以 Notification 和 Activity 的形式来展示具体内容
+**Monitor** 是我发布的一个开源项目，适用于使用了 OkHttp/Retrofit 作为网络请求框架的项目，可以拦截并缓存应用内的所有 Http 请求和响应信息，且可以以 Notification 和 Activity 的形式来展示具体内容
 
 ![](https://upload-images.jianshu.io/upload_images/2552605-590161bfc9f353d2.gif?imageMogr2/auto-orient/strip)
 
@@ -47,7 +51,7 @@ Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](https://www.pgye
 
 ```
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .addInterceptor(new MonitorInterceptor(this)).build();
+            .addInterceptor(new MonitorInterceptor(Context)).build();
 ```
 
 **然后？没了，OK了**
@@ -59,7 +63,7 @@ Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](https://www.pgye
  **1. 启动 Http 列表页**
 
 ```
-    startActivity(Monitor.getLaunchIntent(MainActivity.this));
+    startActivity(Monitor.getLaunchIntent(Activity));
 ```
 
  **2. 开启弹窗**
@@ -113,8 +117,8 @@ Monitor 的一部分灵感来源于另一个开源项目：[Chuck](https://githu
 此外，Monitor 使用到的依赖还包括：
 
 ```
-    implementation "com.squareup.okhttp3:okhttp:3.12.0"
-    implementation 'com.google.code.gson:gson:2.8.5'
+    compileOnly "com.squareup.okhttp3:okhttp:3.12.1"
+    compileOnly 'com.google.code.gson:gson:2.8.5'
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
@@ -129,12 +133,3 @@ Monitor 的一部分灵感来源于另一个开源项目：[Chuck](https://githu
 Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](https://www.pgyer.com/leavesC_Monitor)
 
 欢迎 star
-
-
----
-
-- 2019-06-02 细节优化，发布 v1.0.5 版本
-
-- 2019-03-02 修改了 HttpInformation 的 equals 方法实现方式，修复低版本的兼容性问题，并调整了下 UI，发布 v1.0.4 版本
-
----
