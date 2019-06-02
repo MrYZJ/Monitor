@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.0.4"
+        versionCode 5
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -42,7 +42,7 @@ publish {
     userOrg = 'leavesc'
     groupId = 'leavesc.hello'
     artifactId = 'Monitor'
-    publishVersion = '1.0.4'
+    publishVersion = '1.0.5'
     website = 'https://github.com/leavesC/Monitor'
     desc = 'An in-app HTTP inspector for Android OkHttp clients'
 }
