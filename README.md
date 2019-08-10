@@ -1,8 +1,10 @@
 # Monitor
 
-[ ![Download](https://api.bintray.com/packages/leavesc/MonitorRepo/Monitor/images/download.svg?version=1.0.5) ](https://bintray.com/leavesc/MonitorRepo/Monitor/1.0.5/link)
+[ ![Download](https://api.bintray.com/packages/leavesc/MonitorRepo/Monitor/images/download.svg?version=1.0.6) ](https://bintray.com/leavesc/MonitorRepo/Monitor/1.0.6/link)
 
 ---
+
+- 2019-08-10 to Androidx，发布 v1.0.6 版本
 
 - 2019-06-02 细节优化，发布 v1.0.5 版本
 
@@ -13,7 +15,7 @@
 在 **build.gradle** 文件中添加依赖：
 
 ```
-    implementation 'leavesc.hello:Monitor:1.0.5'
+    implementation 'leavesc.hello:Monitor:1.0.6'
 ```
 
 添加 **MonitorInterceptor** 作为项目中 **OkHttpClient** 的拦截器
@@ -44,7 +46,7 @@ Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](https://www.pgye
 在 **build.gradle** 文件中添加依赖：
 
 ```
-    implementation 'leavesc.hello:Monitor:1.0.5'
+    implementation 'leavesc.hello:Monitor:1.0.6'
 ```
 
 添加 **MonitorInterceptor** 作为项目中 **OkHttpClient** 的拦截器
@@ -119,9 +121,9 @@ Monitor 的一部分灵感来源于另一个开源项目：[Chuck](https://githu
 ```
     compileOnly "com.squareup.okhttp3:okhttp:3.12.1"
     compileOnly 'com.google.code.gson:gson:2.8.5'
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
-    implementation 'android.arch.lifecycle:extensions:1.1.1'
+    implementation 'androidx.room:room-runtime:2.1.0'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
 ```
 
 当中，okhttp 和 gson 不必说，room 和 lifecycle 都是 Google Jetpack 组件的一部分，room 和 lifecycle 搭配使用真的还是蛮爽的~~
