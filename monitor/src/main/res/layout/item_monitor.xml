@@ -38,6 +38,7 @@
         android:id="@+id/tv_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/commonPadding"
         android:padding="@dimen/commonPadding"
         android:textAppearance="@style/monitor.title"
         app:layout_constraintEnd_toEndOf="parent"
