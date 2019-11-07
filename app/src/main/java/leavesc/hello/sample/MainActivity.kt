@@ -42,8 +42,7 @@ class MainActivity : AppCompatActivity() {
                     Monitor.clearNotification()
                 }
                 R.id.btnClearNotification -> {
-                    run { Monitor.clearCache() }
-                    run { Thread(Runnable { Monitor.clearCache() }).start() }
+                    Monitor.clearNotification()
                 }
                 R.id.btnClearCache -> {
                     Thread(Runnable { Monitor.clearCache() }).start()
