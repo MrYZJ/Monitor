@@ -3,6 +3,7 @@ package leavesc.hello.monitor.db
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import leavesc.hello.monitor.holder.ContextHolder
 
 /**
  * 作者：leavesC
@@ -35,7 +36,7 @@ interface MonitorHttpInformationDao {
 
 }
 
-@Database(entities = [HttpInformation::class], version = 1, exportSchema = false)
+@Database(entities = [HttpInformation::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 internal abstract class MonitorHttpInformationDatabase : RoomDatabase() {
 
@@ -45,22 +46,14 @@ internal abstract class MonitorHttpInformationDatabase : RoomDatabase() {
 
         private const val DB_NAME = "MonitorHttpInformation.db"
 
-        @Volatile
-        private var instance: MonitorHttpInformationDatabase? = null
-
-        fun getInstance(context: Context): MonitorHttpInformationDatabase {
-            if (instance == null) {
-                synchronized(MonitorHttpInformationDatabase::class.java) {
-                    if (instance == null) {
-                        instance = create(context)
-                    }
-                }
-            }
-            return instance!!
+        val INSTANCE: MonitorHttpInformationDatabase by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+            create(ContextHolder.context)
         }
 
         private fun create(context: Context): MonitorHttpInformationDatabase {
-            return Room.databaseBuilder(context, MonitorHttpInformationDatabase::class.java, DB_NAME).build()
+            return Room.databaseBuilder(context, MonitorHttpInformationDatabase::class.java, DB_NAME)
+                    .fallbackToDestructiveMigration()
+                    .build()
         }
     }
 

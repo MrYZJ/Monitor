@@ -32,15 +32,15 @@ object Monitor {
     }
 
     fun clearCache() {
-        MonitorHttpInformationDatabase.getInstance(ContextHolder.context).httpInformationDao.deleteAll()
+        MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.deleteAll()
     }
 
     fun queryAllRecord(limit: Int): LiveData<List<HttpInformation>> {
-        return MonitorHttpInformationDatabase.getInstance(ContextHolder.context).httpInformationDao.queryAllRecordObservable(limit)
+        return MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.queryAllRecordObservable(limit)
     }
 
     fun queryAllRecord(): LiveData<List<HttpInformation>> {
-        return MonitorHttpInformationDatabase.getInstance(ContextHolder.context).httpInformationDao.queryAllRecordObservable()
+        return MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.queryAllRecordObservable()
     }
 
 }

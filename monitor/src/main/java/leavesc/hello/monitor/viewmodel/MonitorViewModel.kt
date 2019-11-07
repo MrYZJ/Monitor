@@ -27,11 +27,11 @@ internal class MonitorViewModel : ViewModel() {
         private set
 
     init {
-        allRecordLiveData = MonitorHttpInformationDatabase.getInstance(ContextHolder.context).httpInformationDao.queryAllRecordObservable(LIMIT)
+        allRecordLiveData = MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.queryAllRecordObservable(LIMIT)
     }
 
     fun clearAllCache() {
-        Thread(Runnable { MonitorHttpInformationDatabase.getInstance(ContextHolder.context).httpInformationDao.deleteAll() }).start()
+        Thread(Runnable { MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.deleteAll() }).start()
     }
 
     fun clearNotification() {
@@ -39,7 +39,7 @@ internal class MonitorViewModel : ViewModel() {
     }
 
     fun queryRecordById(id: Long) {
-        recordLiveData = MonitorHttpInformationDatabase.getInstance(ContextHolder.context).httpInformationDao.queryRecordObservable(id)
+        recordLiveData = MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.queryRecordObservable(id)
     }
 
 }

@@ -148,12 +148,12 @@ class MonitorInterceptor(context: Context) : Interceptor {
 
     private fun insert(httpInformation: HttpInformation): Long {
         showNotification(httpInformation)
-        return MonitorHttpInformationDatabase.getInstance(context).httpInformationDao.insert(httpInformation)
+        return MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.insert(httpInformation)
     }
 
     private fun update(httpInformation: HttpInformation) {
         showNotification(httpInformation)
-        MonitorHttpInformationDatabase.getInstance(context).httpInformationDao.update(httpInformation)
+        MonitorHttpInformationDatabase.INSTANCE.httpInformationDao.update(httpInformation)
     }
 
     private fun showNotification(httpInformation: HttpInformation) {
