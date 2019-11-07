@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
@@ -36,14 +35,4 @@ dependencies {
     kapt 'androidx.room:room-compiler:2.2.1'
     compileOnly "com.squareup.okhttp3:okhttp:4.2.2"
     compileOnly 'com.google.code.gson:gson:2.8.6'
-}
-
-publish {
-    repoName = 'MonitorRepo'
-    userOrg = 'leavesc'
-    groupId = 'leavesc.hello'
-    artifactId = 'Monitor'
-    publishVersion = '1.0.7'
-    website = 'https://github.com/leavesC/Monitor'
-    desc = 'An in-app HTTP inspector for Android OkHttp clients'
 }
