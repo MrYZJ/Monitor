@@ -36,5 +36,5 @@ dependencies {
     compileOnly 'androidx.room:room-runtime:2.2.1'
     kapt 'androidx.room:room-compiler:2.2.1'
     compileOnly "com.squareup.okhttp3:okhttp:4.2.2"
-    compileOnly 'com.google.code.gson:gson:2.8.6'
+    compileOnly 'com.google.code.gson:gson:2.8.5'
 }
