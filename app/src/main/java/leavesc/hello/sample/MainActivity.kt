@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import leavesc.hello.monitor.Monitor
 import leavesc.hello.monitor.MonitorInterceptor
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 
 /**
  * 作者：leavesC
@@ -87,7 +89,22 @@ class MainActivity : AppCompatActivity() {
                 .addInterceptor(httpLoggingInterceptor.apply {
                     httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
                 })
+                .addInterceptor(FilterInterceptor())
                 .build()
+    }
+
+    private class FilterInterceptor : Interceptor {
+
+        @Throws(IOException::class)
+        override fun intercept(chain: Interceptor.Chain): okhttp3.Response {
+            val originalRequest = chain.request()
+            val httpBuilder = originalRequest.url.newBuilder()
+            httpBuilder.addEncodedQueryParameter("key", "fb0a1b0d89f3b93adca639f0a29dbf23")
+            val requestBuilder = originalRequest.newBuilder()
+                    .url(httpBuilder.build())
+            return chain.proceed(requestBuilder.build())
+        }
+
     }
 
     private fun doHttpActivity() {
@@ -142,10 +159,9 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
-        api.singlePoetry().enqueue(cb)
-        api.recommendPoetry().enqueue(cb)
-        api.musicBroadcasting().enqueue(cb)
-        api.novelApi().enqueue(cb)
+        api.getProvince().enqueue(cb)
+        api.getCity("440000").enqueue(cb)
+        api.getCounty("440100").enqueue(cb)
     }
 
 }

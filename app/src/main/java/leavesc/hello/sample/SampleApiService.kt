@@ -24,7 +24,7 @@ internal object SampleApiService {
 
     fun getInstance_2(client: OkHttpClient): HttpApi_2 {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.apiopen.top")
+                .baseUrl("https://restapi.amap.com/v3/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()
@@ -111,21 +111,15 @@ internal object SampleApiService {
 
     internal interface HttpApi_2 {
 
-        @GET("/singlePoetry")
-        @Headers("testHeader" + ":" + "singlePoetry")
-        fun singlePoetry(): Call<String>
+        @GET("config/district")
+        fun getProvince(): Call<String>
 
-        @GET("/recommendPoetry")
-        @Headers("testHeader" + ":" + "recommendPoetry")
-        fun recommendPoetry(): Call<String>
+        @GET("config/district")
+        fun getCity(@Query("keywords") keywords: String): Call<String>
 
-        @GET("/musicBroadcasting")
-        @Headers("testHeader" + ":" + "musicBroadcasting")
-        fun musicBroadcasting(): Call<String>
+        @GET("config/district")
+        fun getCounty(@Query("keywords") keywords: String): Call<String>
 
-        @GET("/novelApi")
-        @Headers("testHeader" + ":" + "novelApi")
-        fun novelApi(): Call<String>
     }
 
 }
