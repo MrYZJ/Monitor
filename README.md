@@ -31,7 +31,7 @@
 **然后？没了，OK了**
 
 
-Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](https://www.pgyer.com/leavesC_Monitor)
+Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](doc/app-debug.apk)
 
 ### 一、概述
 
