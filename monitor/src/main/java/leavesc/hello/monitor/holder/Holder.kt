@@ -160,7 +160,7 @@ internal object SerializableHolder {
 
     fun setPrettyPrinting(json: String): String {
         return try {
-            gson.toJson(JsonParser().parse(json))
+            gson.toJson(JsonParser.parseString(json))
         } catch (e: Exception) {
             json
         }

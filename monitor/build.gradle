@@ -19,6 +19,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     lintOptions {
         abortOnError false
     }
@@ -33,8 +37,8 @@ dependencies {
     compileOnly 'com.google.android.material:material:1.0.0'
     compileOnly 'androidx.constraintlayout:constraintlayout:1.1.3'
     compileOnly 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    compileOnly 'androidx.room:room-runtime:2.2.1'
-    kapt 'androidx.room:room-compiler:2.2.1'
-    compileOnly "com.squareup.okhttp3:okhttp:4.2.2"
-    compileOnly 'com.google.code.gson:gson:2.8.5'
+    compileOnly 'androidx.room:room-runtime:2.2.3'
+    kapt 'androidx.room:room-compiler:2.2.3'
+    compileOnly "com.squareup.okhttp3:okhttp:4.3.1"
+    implementation 'com.google.code.gson:gson:2.8.6'
 }

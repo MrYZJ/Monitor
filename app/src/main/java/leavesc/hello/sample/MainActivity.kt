@@ -24,31 +24,29 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var okHttpClient: OkHttpClient
 
-    private val clickListener = object : View.OnClickListener {
-        override fun onClick(v: View) {
-            when (v.id) {
-                R.id.btnDoHttp -> {
-                    doHttpActivity()
-                }
-                R.id.btnDoHttp2 -> {
-                    doHttpActivity2()
-                }
-                R.id.btnLaunchMonitor -> {
-                    startActivity(Monitor.getLaunchIntent(this@MainActivity))
-                }
-                R.id.btnOpenNotification -> {
-                    Monitor.showNotification(true)
-                }
-                R.id.btnCloseNotification -> {
-                    Monitor.showNotification(false)
-                    Monitor.clearNotification()
-                }
-                R.id.btnClearNotification -> {
-                    Monitor.clearNotification()
-                }
-                R.id.btnClearCache -> {
-                    Thread(Runnable { Monitor.clearCache() }).start()
-                }
+    private val clickListener = View.OnClickListener { v ->
+        when (v.id) {
+            R.id.btnDoHttp -> {
+                doHttpActivity()
+            }
+            R.id.btnDoHttp2 -> {
+                doHttpActivity2()
+            }
+            R.id.btnLaunchMonitor -> {
+                startActivity(Monitor.getLaunchIntent(this@MainActivity))
+            }
+            R.id.btnOpenNotification -> {
+                Monitor.showNotification(true)
+            }
+            R.id.btnCloseNotification -> {
+                Monitor.showNotification(false)
+                Monitor.clearNotification()
+            }
+            R.id.btnClearNotification -> {
+                Monitor.clearNotification()
+            }
+            R.id.btnClearCache -> {
+                Thread(Runnable { Monitor.clearCache() }).start()
             }
         }
     }

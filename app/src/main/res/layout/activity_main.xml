@@ -6,47 +6,76 @@
     android:orientation="vertical"
     tools:context="leavesc.hello.sample.MainActivity">
 
-    <Button
-        android:id="@+id/btnDoHttp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="网络请求-1"
-        android:textAllCaps="false" />
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/btnDoHttp2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="网络请求-2"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnDoHttp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="网络请求-1"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnLaunchMonitor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="启动Monitor"
-        android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btnDoHttp2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="网络请求-2"
+            android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnOpenNotification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="开启弹窗"
-        android:textAllCaps="false" />
 
-    <Button
-        android:id="@+id/btnCloseNotification"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="关闭弹窗（当有新数据时也不会显示）"
-        android:textAllCaps="false" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnClearNotification"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="清除弹窗（当有新数据时会再次显示）"
-        android:textAllCaps="false" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnLaunchMonitor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="启动Monitor"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnOpenNotification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="开启弹窗"
+            android:textAllCaps="false" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCloseNotification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="关闭弹窗（当有新数据时也不会显示）"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btnClearNotification"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="清除弹窗（当有新数据时会再次显示）"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnClearCache"
