@@ -18,7 +18,7 @@
 添加依赖：
 
 ```groovy
-	implementation 'com.github.leavesC:Monitor:1.0.9'
+	implementation 'com.github.leavesC:Monitor:1.0.10'
 ```
 
 添加 **MonitorInterceptor** 作为项目中 **OkHttpClient** 的拦截器
@@ -46,13 +46,13 @@ Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](doc/app-debug.ap
     compileOnly 'com.google.android.material:material:1.0.0'
     compileOnly 'androidx.constraintlayout:constraintlayout:1.1.3'
     compileOnly 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    compileOnly 'androidx.room:room-runtime:2.2.1'
-    kapt 'androidx.room:room-compiler:2.2.1'
-    compileOnly "com.squareup.okhttp3:okhttp:4.2.2"
-    compileOnly 'com.google.code.gson:gson:2.8.5'
+    compileOnly 'androidx.room:room-runtime:2.2.3'
+    kapt 'androidx.room:room-compiler:2.2.3'
+    compileOnly "com.squareup.okhttp3:okhttp:4.3.1"
+    implementation 'com.google.code.gson:gson:2.8.6'
 ```
 
-**此处为了方便外部项目统一依赖库的版本，所以 Monitor 内部引用均为 `compileOnly`，所以如果你发现在引入本库后编译失败，那么有可能就是缺少了以上依赖中的某一个，补全即可**
+**此处为了方便外部项目统一依赖库的版本，所以 Monitor 内部引用除了 Gson 外均为 `compileOnly`，所以如果你发现在引入本库后编译失败，那么有可能就是缺少了以上依赖中的某一个，补全即可**
 
 ### 二、使用
 
