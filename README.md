@@ -31,8 +31,6 @@
 **然后？没了，OK了**
 
 
-Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](doc/app-debug.apk)
-
 ### 一、概述
 
 **Monitor** 是一个适用于使用了 **OkHttp/Retrofit** 网络请求框架的项目，可以拦截并缓存应用内的所有网络请求和响应信息，且可以以 Notification 和 Activity 的形式来展示具体内容
@@ -43,16 +41,17 @@ Apk下载：[Android OkHttp 网络请求调试利器 - Monitor](doc/app-debug.ap
 
 ```groovy
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    compileOnly 'com.google.android.material:material:1.0.0'
+    compileOnly 'com.google.android.material:material:1.1.0'
     compileOnly 'androidx.constraintlayout:constraintlayout:1.1.3'
-    compileOnly 'androidx.lifecycle:lifecycle-extensions:2.1.0'
-    compileOnly 'androidx.room:room-runtime:2.2.3'
-    kapt 'androidx.room:room-compiler:2.2.3'
     compileOnly "com.squareup.okhttp3:okhttp:4.3.1"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.room:room-runtime:2.2.4'
+    kapt 'androidx.room:room-compiler:2.2.4'
     implementation 'com.google.code.gson:gson:2.8.6'
 ```
 
-**此处为了方便外部项目统一依赖库的版本，所以 Monitor 内部引用除了 Gson 外均为 `compileOnly`，所以如果你发现在引入本库后编译失败，那么有可能就是缺少了以上依赖中的某一个，补全即可**
+**此处为了方便外部项目统一依赖库的版本，所以 Monitor 内部引用部分依赖项为`compileOnly`，所以如果你发现在引入本库后编译失败，那么有可能就是缺少了以上依赖中的某一个，补全即可**
 
 ### 二、使用
 
